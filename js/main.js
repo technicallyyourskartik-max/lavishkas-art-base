@@ -23,15 +23,44 @@ const LAB = {
    EDIT ME: workshops, prices and weekend timetable
    `when` = which day it runs and the start time (24-hour). Prices are drafts.
    ========================================================================== */
+const CATEGORIES = [
+  { id: "paint",   name: "Painting and illustration" },
+  { id: "mixed",   name: "Mixed media and crafts" },
+  { id: "textile", name: "Textiles and fibre arts" }
+];
 const WORKSHOPS = [
-  { id: "canvas",     name: "Acrylic Canvas Painting", img: "canvas.jpg",   pos: "50% 50%",
+  { id: "canvas",     cat: "paint",   name: "Acrylic Canvas Painting", img: "canvas.jpg",   pos: "50% 50%",
     alt: "A bowl of mixed acrylic paint with a brush resting in it",
-    blurb: "Paint a canvas of your own in acrylics, with simple guidance on colour and brushwork.",
+    blurb: "Paint a canvas of your own in acrylics, with step-by-step guidance on colour and brushwork.",
     mins: 90,  age: "6+",   price: 699,  when: { sat: "11:00", sun: "11:00" } },
-  { id: "watercolor", name: "Watercolour Studio",    img: "watercolor.jpg", pos: "62% 45%",
+  { id: "watercolor", cat: "paint",   name: "Watercolour Studio",    img: "watercolor.jpg", pos: "62% 45%",
     alt: "A hand painting with a fine brush on watercolour paper",
-    blurb: "Learn washes, layering and control, then finish a small painting to take home.",
-    mins: 90,  age: "12+",  price: 649,  when: { sat: "15:30", sun: "15:30" } }
+    blurb: "Learn fluid colour mixing and wet-on-wet washes, then finish a small botanical or floral painting to take home.",
+    mins: 90,  age: "12+",  price: 649,  when: { sat: "15:30", sun: "15:30" } },
+  { id: "pour",       cat: "paint",   name: "Alcohol Ink and Pouring Art", img: "pour.jpg", pos: "50% 48%",
+    alt: "Swirling marbled colour in red, blue and yellow around a small flower",
+    blurb: "See how ink and paint flow, spread and blend as you tilt and guide them across paper or canvas to make a vibrant abstract.",
+    mins: 90,  age: "10+",  price: 899,  when: { sat: "14:30" } },
+  { id: "mosaic",     cat: "mixed",   name: "Mosaic Art",            img: "mosaic.jpg",   pos: "50% 50%",
+    alt: "Rounded mosaic tiles in cream, black, blue and orange laid close together",
+    blurb: "Arrange coloured glass, tiles or mirror pieces onto a backing or lamp base to build a geometric or abstract design.",
+    mins: 120, age: "12+",  price: 1499, when: { sat: "12:30" } },
+  { id: "candle",     cat: "mixed",   name: "Candle Making and Scent Blending", img: "candle.jpg", pos: "50% 55%",
+    alt: "Amber glass jars with a lit candle on a blue shelf",
+    blurb: "Learn wax temperatures and wick placement, blend your own fragrance and pour a candle in a glass or concrete vessel.",
+    mins: 120, age: "12+",  price: 1199, when: { sat: "17:30" } },
+  { id: "block",      cat: "textile", name: "Block Printing and Stamping", img: "block.jpg", pos: "50% 45%",
+    alt: "Hands pressing a carved block onto cloth, in black and white",
+    blurb: "Stamp patterns with hand-carved blocks and eco-friendly textile ink on a tote bag, scarf or T-shirt.",
+    mins: 120, age: "10+",  price: 999,  when: { sun: "17:30" } },
+  { id: "macrame",    cat: "textile", name: "Punch Needle and Macramé", img: "macrame.jpg", pos: "50% 50%",
+    alt: "White rope tied in decorative knots and hung from a wooden dowel",
+    blurb: "Make a wall hanging, plant holder or coaster with textured loop pile or hand-tied knots.",
+    mins: 120, age: "12+",  price: 1099, when: { sun: "14:00" } },
+  { id: "cyanotype",  cat: "textile", name: "Cyanotype Sun Printing", img: "cyanotype.jpg", pos: "50% 50%",
+    alt: "A blue cyanotype print of plant stems rinsing in a white tray",
+    blurb: "Lay leaves and flowers on treated paper or fabric and let the sun develop a blue and white print without a camera.",
+    mins: 90,  age: "8+",   price: 799,  when: { sun: "12:30" } }
 ];
 
 
@@ -107,23 +136,33 @@ async function copyText(text) {
    workshops grid + filters
    ========================================================================== */
 function renderCards() {
-  $("#workshop-grid").innerHTML = WORKSHOPS.map(w => `
-    <article class="wk reveal">
-      <figure class="wk__img"><img src="assets/img/${w.img}" width="960" height="720" loading="lazy" alt="${esc(w.alt)}" style="--pos:${w.pos}"></figure>
-      <div class="wk__body">
-        <h3>${w.name}</h3>
-        <p class="wk__blurb">${w.blurb}</p>
-        <dl class="wk__facts">
-          <div><dt>Length</dt><dd>${w.mins} minutes</dd></div>
-          <div><dt>Ages</dt><dd>${w.age}</dd></div>
-          <div><dt>Runs on</dt><dd>${Object.keys(w.when).map(k => DAYNAME[k]).join(" and ")}</dd></div>
-        </dl>
-        <div class="wk__foot">
-          <div class="price">${inr(w.price)}<small>per person</small></div>
-          <a class="btn" href="#book" data-book="${w.id}">Book this workshop</a>
+  $("#workshop-grid").innerHTML = CATEGORIES.map(c => {
+    const list = WORKSHOPS.filter(w => w.cat === c.id);
+    if (!list.length) return "";
+    return `
+    <div class="cat">
+      <div class="cat__head"><h3>${c.name}</h3><span>${list.length} ${list.length > 1 ? "workshops" : "workshop"}</span></div>
+      ${list.map(w => `
+      <article class="wk reveal">
+        <figure class="wk__img"><img src="assets/img/${w.img}" width="960" height="720" loading="lazy" alt="${esc(w.alt)}" style="--pos:${w.pos}"></figure>
+        <div class="wk__body">
+          <h4>${w.name}</h4>
+          <p class="wk__blurb">${w.blurb}</p>
         </div>
-      </div>
-    </article>`).join("");
+        <div class="wk__aside">
+          <dl class="wk__facts">
+            <div><dt>Length</dt><dd>${w.mins} minutes</dd></div>
+            <div><dt>Ages</dt><dd>${w.age}</dd></div>
+            <div><dt>Runs on</dt><dd>${Object.keys(w.when).map(k => DAYNAME[k]).join(" and ")}</dd></div>
+          </dl>
+          <div class="wk__foot">
+            <div class="price">${inr(w.price)}<small>per person</small></div>
+            <a class="btn" href="#book" data-book="${w.id}">Book</a>
+          </div>
+        </div>
+      </article>`).join("")}
+    </div>`;
+  }).join("");
 }
 
 /* ==========================================================================
