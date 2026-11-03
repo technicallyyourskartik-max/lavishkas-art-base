@@ -25,25 +25,32 @@ const LAB = {
    `when` = which day it runs and the start time (24-hour). Prices are drafts.
    ========================================================================== */
 const WORKSHOPS = [
-  { id: "plate",     name: "Plate Painting",       img: "ill-plate.svg",  color: "sky",
-    blurb: "Pick a plain ceramic plate and paint it any way you like. We glaze and fire it for you.",
-    mins: 90,  age: "6+",  price: 799,  when: { sat: "11:00", sun: "16:00" } },
-  { id: "wheel",     name: "Pottery Wheel",        img: "ill-wheel.svg",  color: "pink",
-    blurb: "Centre the clay, open it up and pull your own vase or bowl. Your hands will remember it.",
-    mins: 120, age: "10+", price: 1299, when: { sat: "13:00" } },
-  { id: "handbuild", name: "Mugs and Pinch Pots",  img: "ill-mug.svg",    color: "mint",
-    blurb: "No wheel needed. Pinch, coil and press a mug and a little pot, then decorate them.",
-    mins: 120, age: "6+",  price: 999,  when: { sun: "11:00" } },
-  { id: "canvas",    name: "Mini Canvas Painting", img: "ill-canvas.svg", color: "peach",
-    blurb: "Acrylic on a tiny canvas with an easel of its own. Sunsets, cats, whatever you like.",
-    mins: 90,  age: "6+",  price: 699,  when: { sat: "15:30" } },
-  { id: "resin",     name: "Resin Art",            img: "ill-resin.svg",  color: "lilac",
-    blurb: "Pour swirly pastel resin into coasters and keychains, then watch it turn glossy.",
-    mins: 120, age: "12+", price: 1099, when: { sun: "13:30" } },
-  { id: "lamp",      name: "Moon Texture Lamp",    img: "ill-lamp.svg",   color: "sky",
-    blurb: "Sculpt craters onto a moon, then take home a lamp that glows like a night light.",
-    mins: 120, age: "8+",  price: 1199, when: { sat: "17:30" } }
+  { id: "plate",      name: "Plate Painting",        img: "plate.jpg",      pos: "50% 60%",
+    alt: "A hand painting a pattern onto a ceramic plate as it turns",
+    blurb: "Choose a plain ceramic plate and paint your own design. We glaze and fire it for you.",
+    mins: 90,  age: "6+",   price: 799,  when: { sat: "11:00", sun: "16:00" } },
+  { id: "wheel",      name: "Pottery Wheel",         img: "wheel.jpg",      pos: "50% 50%",
+    alt: "A potter’s hands shaping clay on a spinning wheel, seen from above",
+    blurb: "Centre the clay, open it up and pull your own bowl or vase with a teacher at your side.",
+    mins: 120, age: "10+",  price: 1299, when: { sat: "13:00" } },
+  { id: "handbuild",  name: "Mugs and Pinch Pots",   img: "handbuild.jpg",  pos: "45% 50%",
+    alt: "Hands pressing and shaping a lump of clay on a wooden table",
+    blurb: "No wheel needed. Pinch, coil and press a mug and a small pot, then decorate them.",
+    mins: 120, age: "6+",   price: 999,  when: { sun: "11:00" } },
+  { id: "canvas",     name: "Acrylic Canvas Painting", img: "canvas.jpg",   pos: "50% 50%",
+    alt: "A bowl of mixed acrylic paint with a brush resting in it",
+    blurb: "Paint a canvas of your own in acrylics, with simple guidance on colour and brushwork.",
+    mins: 90,  age: "6+",   price: 699,  when: { sat: "15:30" } },
+  { id: "watercolor", name: "Watercolour Studio",    img: "watercolor.jpg", pos: "62% 45%",
+    alt: "A hand painting with a fine brush on watercolour paper",
+    blurb: "Learn washes, layering and control, then finish a small painting to take home.",
+    mins: 90,  age: "12+",  price: 649,  when: { sat: "17:30" } },
+  { id: "kids",       name: "Little Potters",        img: "kids.jpg",       pos: "45% 50%",
+    alt: "A child watching an adult shape clay on a spinning pottery wheel",
+    blurb: "A relaxed clay session for children. A grown-up is welcome to join and make alongside.",
+    mins: 90,  age: "5 to 10", price: 899,  when: { sun: "13:30" } }
 ];
+
 
 /* ==========================================================================
    helpers
@@ -118,24 +125,24 @@ async function copyText(text) {
    ========================================================================== */
 function renderCards() {
   $("#workshop-grid").innerHTML = WORKSHOPS.map(w => `
-    <article class="card" style="--bg:var(--${w.color})" data-days="${Object.keys(w.when).join(" ")}">
-      <div class="card__art"><img src="assets/${w.img}" alt="" loading="lazy"></div>
+    <article class="card" data-days="${Object.keys(w.when).join(" ")}">
+      <div class="card__img"><img src="assets/img/${w.img}" width="960" height="720" loading="lazy" alt="${esc(w.alt)}" style="--pos:${w.pos}"></div>
       <h3>${w.name}</h3>
       <p>${w.blurb}</p>
-      <div class="meta">
-        <span class="pill">${w.mins} min</span>
-        <span class="pill">Ages ${w.age}</span>
-        ${Object.keys(w.when).map(k => `<span class="pill">${DAYNAME[k].slice(0, 3)}</span>`).join("")}
-      </div>
+      <ul class="facts-inline" aria-label="Details">
+        <li>${w.mins} minutes</li>
+        <li>Ages ${w.age}</li>
+        <li>${Object.keys(w.when).map(k => DAYNAME[k]).join(" and ")}</li>
+      </ul>
       <div class="card__foot">
         <div class="price">${inr(w.price)}<small>per person</small></div>
-        <a class="btn btn--sm btn--white" href="#book" data-book="${w.id}">Book this</a>
+        <a class="btn btn--sm" href="#book" data-book="${w.id}">Book</a>
       </div>
     </article>`).join("");
 }
 
 function initFilters() {
-  const chips = $$("#filters .chip");
+  const chips = $$("#filters .tab");
   chips.forEach(chip => chip.addEventListener("click", () => {
     chips.forEach(c => c.setAttribute("aria-pressed", String(c === chip)));
     const day = chip.dataset.day;
@@ -156,17 +163,14 @@ function renderDays() {
       <section class="day" aria-label="${DAYNAME[k]}">
         <div class="day__head">
           <h3>${DAYNAME[k]}</h3>
-          <span class="pill pill--pink">Next one: ${fmtDate(next)}</span>
+          <span>Next: ${fmtDate(next)}</span>
         </div>
         <ul class="slots">
           ${rows.map(w => `
-            <li class="slot" style="--bg:color-mix(in srgb, var(--${w.color}) 50%, #fff)">
-              <img src="assets/${w.img}" alt="" loading="lazy">
-              <div>
-                <div class="slot__time">${fmtTime(w.when[k])}</div>
-                <div class="slot__what">${w.name}<small>${w.mins} min, ${inr(w.price)} each</small></div>
-              </div>
-              <a class="btn btn--sm btn--white" href="#book" data-book="${w.id}" data-day="${k}">Book</a>
+            <li class="slot">
+              <div class="slot__time">${fmtTime(w.when[k])}</div>
+              <div class="slot__what"><b>${w.name}</b><small>${w.mins} minutes, ${inr(w.price)} per person</small></div>
+              <a class="btn btn--sm btn--ghost" href="#book" data-book="${w.id}" data-day="${k}" aria-label="Book ${esc(w.name)} on ${DAYNAME[k]}">Book</a>
             </li>`).join("")}
         </ul>
       </section>`;
@@ -208,7 +212,9 @@ function snapshot() {
 function updateTicket() {
   const s = snapshot();
   $("#t-title").textContent = s.w.name;
-  $("#t-art").src = "assets/" + s.w.img;
+  $("#t-art").src = "assets/img/" + s.w.img;
+  $("#t-art").alt = s.w.alt;
+  $("#t-art").style.objectPosition = s.w.pos;
   $("#t-when").textContent = s.date ? `${fmtDate(s.date)}, ${fmtTime(s.start)}` : "Pick a day";
   $("#f-time").textContent = s.date ? `${DAYNAME[s.key]}, ${fmtTime(s.start)} to ${fmtTime(s.end)}` : "";
   $("#t-seats").textContent = s.people;
@@ -232,8 +238,8 @@ function setErr(field, msg) {
 function validate() {
   const name = $("#f-name").value.trim();
   const phone = $("#f-phone").value.trim();
-  setErr("name", name.length < 2 ? "Tell us your name so we can say hi." : "");
-  setErr("phone", /^[6-9]\d{9}$/.test(phone) ? "" : "Enter a 10-digit mobile number that starts with 6, 7, 8 or 9.");
+  setErr("name", name.length < 2 ? "Enter your full name." : "");
+  setErr("phone", /^[6-9]\d{9}$/.test(phone) ? "" : "Enter a 10-digit mobile number starting with 6, 7, 8 or 9.");
   const bad = $("#fld-name.has-error input, #fld-phone.has-error input");
   if (bad) { bad.focus(); return false; }
   return true;
@@ -265,7 +271,7 @@ function qrSvg(text) {
   const n = qr.getModuleCount(), m = 2;
   let d = "";
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) d += `M${c + m} ${r + m}h1v1h-1z`;
-  return `<svg viewBox="0 0 ${n + 2 * m} ${n + 2 * m}" shape-rendering="crispEdges" role="img" aria-label="UPI payment QR code"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#3B2A5C"/></svg>`;
+  return `<svg viewBox="0 0 ${n + 2 * m} ${n + 2 * m}" shape-rendering="crispEdges" role="img" aria-label="UPI payment QR code"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#151A22"/></svg>`;
 }
 function waText(b) {
   return [
@@ -307,44 +313,43 @@ function showPay(b) {
   const wa = LAB.whatsapp ? `https://wa.me/${LAB.whatsapp}?text=${encodeURIComponent(waText(b))}` : "";
 
   payBox.innerHTML = `
-    <div>
-      <h3 class="display" style="font-size:2.1rem;line-height:1.05">Almost there, ${first}!</h3>
-      <p style="margin-top:.5rem">Booking <span class="pill pill--butter">${b.ref}</span> for ${b.people} ${b.people > 1 ? "people" : "person"}:
-      ${b.w.name} on ${fmtDate(b.date)} at ${fmtTime(b.start)}.</p>
+    <div class="pay__head">
+      <h3>Complete your booking, ${first}.</h3>
+      <p>Reference <strong class="ref">${b.ref}</strong>. ${b.people} ${b.people > 1 ? "seats" : "seat"} for ${b.w.name} on ${fmtDate(b.date)} at ${fmtTime(b.start)}.</p>
     </div>
 
-    ${preview ? `<p class="preview-banner"><strong>Preview mode.</strong> The UPI ID and WhatsApp number aren’t set yet, so nothing here sends real money. Add them at the top of <code>js/main.js</code> to go live.</p>` : ""}
+    ${preview ? `<p class="notice"><strong>Preview.</strong> Payments are not switched on yet, so nothing on this screen takes money. The studio can enable them by adding a UPI ID and WhatsApp number in <code>js/main.js</code>.</p>` : ""}
 
-    <div class="stack">
-      <p><span class="stepno">1</span><strong>Pay on UPI</strong></p>
+    <section class="pay__step">
+      <h4><span class="n">1</span>Pay by UPI</h4>
       <div class="pay__amount">${inr(b.payNow)}</div>
       <div class="pay__row">
         <div class="qr only-desktop" id="qr">${qrSvg(upi)}</div>
         <div class="stack">
           <a class="btn only-touch" href="${upi}">Open my UPI app</a>
-          ${LAB.paymentLink ? `<a class="btn btn--butter" href="${esc(LAB.paymentLink)}" target="_blank" rel="noopener">Pay by card or netbanking</a>` : ""}
+          ${LAB.paymentLink ? `<a class="btn btn--ghost" href="${esc(LAB.paymentLink)}" target="_blank" rel="noopener">Pay by card or netbanking</a>` : ""}
           <div class="upi-id"><code>${esc(upiShown)}</code><button type="button" class="chip" data-copy="${esc(upiShown)}">Copy UPI ID</button></div>
-          <p class="hint">Scan with GPay, PhonePe, Paytm or any UPI app. The amount and your booking ref are filled in for you.</p>
+          <p class="hint">Scan with Google Pay, PhonePe, Paytm or any UPI app. The amount and your reference are filled in for you.</p>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="stack">
-      <p><span class="stepno">2</span><strong>Send us the screenshot</strong></p>
+    <section class="pay__step">
+      <h4><span class="n">2</span>Send us the screenshot</h4>
       ${wa
-        ? `<a class="btn btn--mint btn--wide" href="${wa}" target="_blank" rel="noopener">Send booking on WhatsApp</a>`
-        : `<button type="button" class="btn btn--mint btn--wide" data-copy-booking>Copy booking message</button>`}
-      <p class="hint">Your seat is confirmed once we reply. We’ll hold it for you in the meantime.</p>
-    </div>
+        ? `<a class="btn btn--whatsapp btn--wide" href="${wa}" target="_blank" rel="noopener">Send booking on WhatsApp</a>`
+        : `<button type="button" class="btn btn--wide" data-copy-booking>Copy booking message</button>`}
+      <p class="hint">Your seat is confirmed once we reply. We hold it for you in the meantime.</p>
+    </section>
 
     <ul class="policy" aria-label="Booking rules">
       <li>Your advance is adjusted in your final bill.</li>
       <li>Move your booking once for free if you tell us 24 hours before.</li>
-      <li>Inside 24 hours, the advance isn’t refundable.</li>
+      <li>Inside 24 hours, the advance is not refundable.</li>
     </ul>
 
     <div class="stack">
-      <a class="btn btn--butter btn--wide" href="${calUrl(b)}" target="_blank" rel="noopener">Add to Google Calendar</a>
+      <a class="btn btn--ghost btn--wide" href="${calUrl(b)}" target="_blank" rel="noopener">Add to Google Calendar</a>
       <button type="button" class="linkbtn" data-edit>Change something</button>
     </div>`;
 
@@ -410,39 +415,45 @@ function initContacts() {
     const cc = LAB.whatsapp.length > 10 ? LAB.whatsapp.slice(0, LAB.whatsapp.length - 10) : "91";
     const num = LAB.whatsapp.slice(-10);
     bits.push(`WhatsApp: <a href="https://wa.me/${LAB.whatsapp}" target="_blank" rel="noopener">+${cc} ${num.slice(0, 5)} ${num.slice(5)}</a>`);
-    actions.insertAdjacentHTML("afterbegin", `<a class="btn btn--mint" href="https://wa.me/${LAB.whatsapp}" target="_blank" rel="noopener">Message us on WhatsApp</a>`);
+    actions.insertAdjacentHTML("afterbegin", `<a class="btn btn--whatsapp" href="https://wa.me/${LAB.whatsapp}" target="_blank" rel="noopener">Message us on WhatsApp</a>`);
+    const g = $("#group-cta");
+    if (g) {
+      g.href = `https://wa.me/${LAB.whatsapp}?text=${encodeURIComponent("Hi! I’d like to ask about a group booking at " + LAB.studioName + ".")}`;
+      g.target = "_blank"; g.rel = "noopener"; g.textContent = "Message us on WhatsApp";
+    }
   }
   if (LAB.instagram) bits.push(`Instagram: <a href="https://instagram.com/${LAB.instagram}" target="_blank" rel="noopener">@${LAB.instagram}</a>`);
   if (bits.length) $("#footer-contact").innerHTML = bits.join("<br>");
 }
 
 /* ==========================================================================
-   hero plate: tap a colour, the flower repaints
+   hero reserve bar: pre-fills the booking form and jumps to it
    ========================================================================== */
-const PAINTS = {
-  pink:   { paint: "#FFB8D6", dots: "#B8DCFF", center: "#FFEE99", say: ["Ooh, bubblegum pink!", "Pink suits me."] },
-  butter: { paint: "#FFEE99", dots: "#FFB8D6", center: "#FFB8D6", say: ["Sunshine mode on!", "Butter yellow, yum."] },
-  mint:   { paint: "#B5EBD0", dots: "#D4C2FF", center: "#FFEE99", say: ["Minty fresh!", "Mint is my favourite."] },
-  sky:    { paint: "#B8DCFF", dots: "#FFB8D6", center: "#FFEE99", say: ["Cloud nine, hello.", "Blue skies, smooth brush."] },
-  lilac:  { paint: "#D4C2FF", dots: "#FFEE99", center: "#B5EBD0", say: ["Lilac dreams.", "So dreamy, keep going."] },
-  peach:  { paint: "#FFCBA8", dots: "#B5EBD0", center: "#FFB8D6", say: ["Peachy keen!", "That tickles. More!"] }
-};
-function initPlate() {
-  const svg = $("#plate-svg"), flower = $("#flower"), say = $("#plate-say");
-  const btns = $$("#swatches .swatch");
-  const counts = {};
-  btns.forEach(btn => btn.addEventListener("click", () => {
-    const p = PAINTS[btn.dataset.paint];
-    svg.style.setProperty("--paint", p.paint);
-    svg.style.setProperty("--paint2", p.dots);
-    svg.style.setProperty("--center", p.center);
-    btns.forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
-    counts[btn.dataset.paint] = (counts[btn.dataset.paint] || 0) + 1;
-    say.textContent = p.say[(counts[btn.dataset.paint] - 1) % p.say.length];
-    flower.classList.remove("is-popping");
-    void flower.getBoundingClientRect();
-    flower.classList.add("is-popping");
-  }));
+function initQuick() {
+  const qw = $("#q-workshop"), qd = $("#q-date"), qp = $("#q-people");
+  qw.innerHTML = WORKSHOPS.map(w => `<option value="${w.id}">${w.name}</option>`).join("");
+  qp.innerHTML = Array.from({ length: LAB.seatsPerBatch }, (_, i) => `<option value="${i + 1}"${i + 1 === 2 ? " selected" : ""}>${i + 1}</option>`).join("");
+  const fill = () => {
+    qd.innerHTML = upcoming(getW(qw.value)).map(o => `<option value="${toIso(o.date)}">${fmtDate(o.date)}, ${fmtTime(o.start)}</option>`).join("");
+  };
+  qw.addEventListener("change", fill);
+  fill();
+  $("#quick").addEventListener("submit", e => {
+    e.preventDefault();
+    $("#f-workshop").value = qw.value;
+    fillDates();
+    if (qd.value) $("#f-date").value = qd.value;
+    people = Number(qp.value);
+    updateTicket();
+    if (!payBox.hidden) { payBox.hidden = true; form.hidden = false; }
+    $("#book").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+
+/* small facts that come from the config */
+function initFacts() {
+  $$("[data-adv]").forEach(el => { el.textContent = inr(LAB.advancePerPerson); });
+  $$("[data-seats]").forEach(el => { el.textContent = LAB.seatsPerBatch; });
 }
 
 /* ==========================================================================
@@ -462,5 +473,6 @@ renderDays();
 initFilters();
 initBooking();
 initContacts();
-initPlate();
+initQuick();
+initFacts();
 initNav();

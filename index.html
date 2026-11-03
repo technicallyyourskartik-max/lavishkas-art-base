@@ -3,231 +3,190 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lavishka's Art Base | Pottery and art studio in Kavi Nagar</title>
-<meta name="description" content="Plate painting, pottery wheel, hand-built mugs, mini canvas, resin art and moon lamps. Weekend workshops every Saturday and Sunday at B-54, Sector 18, Kavi Nagar.">
-<meta name="theme-color" content="#FFB8D6">
+<title>Lavishka’s Art Base | Pottery and art workshops in Kavi Nagar, Ghaziabad</title>
+<meta name="description" content="Weekend pottery, plate painting and art workshops at B-54, Sector 18, Kavi Nagar, Ghaziabad. Small batches, all materials included. Book your seat online.">
+<meta name="theme-color" content="#F6F6F2">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lavishka’s Art Base | Pottery and art workshops in Kavi Nagar">
+<meta property="og:description" content="Weekend pottery, plate painting and art workshops in Ghaziabad. Small batches, all materials included.">
+<meta property="og:image" content="https://technicallyyourskartik-max.github.io/lavishkas-art-base/assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="assets/fonts/fredoka.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/hanken-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<a class="skip" href="#workshops">Skip to workshops</a>
+<a class="skip" href="#main">Skip to content</a>
 
-<!-- decorative sticker sprite -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="i-star" viewBox="0 0 48 48"><path d="M24 4 L30 17 L44 18 L33.5 28 L36.5 42 L24 35 L11.5 42 L14.5 28 L4 18 L18 17 Z" fill="currentColor" stroke="#3B2A5C" stroke-width="3.5" stroke-linejoin="round"/></symbol>
-    <symbol id="i-heart" viewBox="0 0 48 48"><path d="M24 42 C6 30 6 14 17 12 C21 11.5 24 14 24 17 C24 14 27 11.5 31 12 C42 14 42 30 24 42 Z" fill="currentColor" stroke="#3B2A5C" stroke-width="3.5" stroke-linejoin="round"/></symbol>
-    <symbol id="i-spark" viewBox="0 0 48 48"><path d="M24 4 Q26 22 44 24 Q26 26 24 44 Q22 26 4 24 Q22 22 24 4 Z" fill="currentColor" stroke="#3B2A5C" stroke-width="3.5" stroke-linejoin="round"/></symbol>
-    <symbol id="i-drop" viewBox="0 0 48 48"><path d="M24 5 C24 5 9 22 9 32 A15 15 0 0 0 39 32 C39 22 24 5 24 5 Z" fill="currentColor" stroke="#3B2A5C" stroke-width="3.5" stroke-linejoin="round"/><path d="M17 33 Q17 39 22 41" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".85"/></symbol>
-    <symbol id="i-flower" viewBox="0 0 48 48"><g fill="currentColor" stroke="#3B2A5C" stroke-width="3"><circle cx="24" cy="11" r="8"/><circle cx="36" cy="20" r="8"/><circle cx="31.5" cy="34" r="8"/><circle cx="16.5" cy="34" r="8"/><circle cx="12" cy="20" r="8"/></g><circle cx="24" cy="25" r="7.5" fill="#FFEE99" stroke="#3B2A5C" stroke-width="3"/></symbol>
-    <symbol id="i-squig" viewBox="0 0 96 24"><path d="M4 12 Q16 -2 28 12 T52 12 T76 12 T92 12" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/></symbol>
-  </defs>
-</svg>
-
-<!-- ===================== NAV ===================== -->
-<header class="nav">
-  <div class="wrap">
-    <div class="nav__bar">
-      <a class="brand" href="#top" aria-label="Lavishka's Art Base, home">
-        <img src="assets/logo-mark.svg" alt="" width="44" height="44">
-        <span>Lavishka’s Art Base</span>
-      </a>
-      <nav aria-label="Main">
-        <ul class="nav__links" id="nav-links">
-          <li><a href="#workshops">Workshops</a></li>
-          <li><a href="#weekend">This weekend</a></li>
-          <li><a href="#how">How it works</a></li>
-          <li><a href="#shelf">Shelf</a></li>
-          <li><a href="#find">Find us</a></li>
-          <li><a class="btn btn--sm" href="#book">Book a seat</a></li>
-        </ul>
-      </nav>
-      <button class="nav__toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Menu"><i></i></button>
-    </div>
+<header class="site-header" id="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="Lavishka’s Art Base, back to top">
+      <img src="assets/logo-mark.svg" width="40" height="40" alt="">
+      <span class="brand__text"><b>Lavishka’s Art Base</b><small>Pottery and art studio</small></span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+      <span class="sr">Menu</span><i aria-hidden="true"></i>
+    </button>
+    <nav class="nav" id="nav-links" aria-label="Main">
+      <a href="#workshops">Workshops</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#visit">Visit</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn--sm" href="#book">Book a session</a>
+    </nav>
   </div>
 </header>
 
-<main id="top">
+<main id="main">
 
 <!-- ===================== HERO ===================== -->
-<section class="hero">
-  <svg class="deco hide-sm" style="--s:38px;--c:var(--butter);--r:-10deg;top:7%;left:2%"><use href="#i-spark"/></svg>
-  <svg class="deco hide-sm" style="--s:34px;--c:var(--pink);--r:10deg;bottom:8%;left:46%"><use href="#i-heart"/></svg>
-  <svg class="deco hide-sm" style="--s:40px;--c:var(--lilac);--r:-8deg;top:5%;right:2%"><use href="#i-flower"/></svg>
+<section class="hero" aria-labelledby="h-hero">
+  <picture>
+    <source media="(max-width: 700px)" srcset="assets/img/hero-960.jpg">
+    <img class="hero__img" src="assets/img/hero-1920.jpg" width="1920" height="1280" fetchpriority="high"
+         alt="Clay-covered hands centring clay on a spinning pottery wheel, in black and white">
+  </picture>
+  <div class="hero__shade" aria-hidden="true"></div>
+  <div class="wrap hero__inner">
+    <h1 id="h-hero">Make something with your hands this weekend.</h1>
+    <p class="hero__lead">Pottery and painting workshops every Saturday and Sunday at B-54, Sector 18, Kavi Nagar. No experience needed.</p>
+  </div>
+</section>
 
-  <div class="wrap hero__grid">
-    <div class="hero__copy">
-      <p class="sticker">Open every Saturday and Sunday</p>
-      <h1 aria-label="Come make a happy mess.">
-        <span class="w" style="--i:0" aria-hidden="true">Come</span>
-        <span class="w" style="--i:1" aria-hidden="true">make</span>
-        <span class="w" style="--i:2" aria-hidden="true">a</span>
-        <span class="w" style="--i:3" aria-hidden="true">happy</span>
-        <span class="w" style="--i:4" aria-hidden="true">mess.</span>
-      </h1>
-      <p class="lede">A cosy pottery and art studio in Kavi Nagar. Paint a plate, spin a pot, pour resin or glow up a moon lamp. No experience needed, bas aana hai.</p>
-      <div class="hero__cta">
-        <a class="btn" href="#book">Book a seat</a>
-        <a class="btn btn--butter" href="#workshops">See what we make</a>
-      </div>
-      <ul class="facts" aria-label="Quick facts">
-        <li class="pill pill--mint">Sat + Sun, 11 AM to 8 PM</li>
-        <li class="pill pill--sky">Small batches of 8</li>
-        <li class="pill pill--pink">Glazing and firing included</li>
-      </ul>
-    </div>
+<div class="wrap quick-wrap">
+  <form class="quick" id="quick" aria-label="Reserve seats">
+    <div class="qf"><label for="q-workshop">Workshop</label><select id="q-workshop"></select></div>
+    <div class="qf"><label for="q-date">Date</label><select id="q-date"></select></div>
+    <div class="qf qf--s"><label for="q-people">People</label><select id="q-people"></select></div>
+    <button class="btn" type="submit">Reserve seats</button>
+  </form>
+</div>
 
-    <div>
-      <div class="plate" id="plate">
-        <p class="plate__say" id="plate-say" aria-live="polite">Tap a colour and paint me!</p>
-        <svg class="plate__svg" id="plate-svg" viewBox="0 0 420 420" role="img" aria-label="A plate with a smiling flower. It changes colour when you tap a paint swatch.">
-          <circle cx="204" cy="212" r="188" fill="#3B2A5C"/>
-          <circle cx="200" cy="200" r="188" fill="#FFFDFB" stroke="#3B2A5C" stroke-width="6.2"/>
-          <circle cx="200" cy="200" r="166" fill="none" stroke="#3B2A5C" stroke-width="28"/>
-          <circle class="p-ring" cx="200" cy="200" r="166" fill="none" stroke-width="20"/>
-          <circle class="p-dots" cx="200" cy="200" r="134" fill="none" stroke-width="11" stroke-linecap="round" stroke-dasharray="0.1 26"/>
-          <g stroke="#3B2A5C" stroke-width="4.7" stroke-linejoin="round">
-            <ellipse cx="108" cy="318" rx="34" ry="15" fill="#B5EBD0" transform="rotate(-38 108 318)"/>
-            <ellipse cx="292" cy="318" rx="34" ry="15" fill="#B5EBD0" transform="rotate(38 292 318)"/>
-          </g>
-          <g class="flower" id="flower">
-            <g stroke="#3B2A5C" stroke-width="4.7">
-              <circle class="petal" cx="282" cy="200" r="40"/><circle class="petal" cx="258" cy="258" r="40"/>
-              <circle class="petal" cx="200" cy="282" r="40"/><circle class="petal" cx="142" cy="258" r="40"/>
-              <circle class="petal" cx="118" cy="200" r="40"/><circle class="petal" cx="142" cy="142" r="40"/>
-              <circle class="petal" cx="200" cy="118" r="40"/><circle class="petal" cx="258" cy="142" r="40"/>
-            </g>
-            <circle class="p-center" cx="200" cy="200" r="60" stroke="#3B2A5C" stroke-width="4.7"/>
-            <circle cx="182" cy="192" r="7.5" fill="#3B2A5C"/><circle cx="218" cy="192" r="7.5" fill="#3B2A5C"/>
-            <circle cx="185" cy="189" r="2.6" fill="#fff"/><circle cx="221" cy="189" r="2.6" fill="#fff"/>
-            <ellipse cx="168" cy="210" rx="9" ry="6" fill="#FF8FBE" opacity=".8"/><ellipse cx="232" cy="210" rx="9" ry="6" fill="#FF8FBE" opacity=".8"/>
-            <path d="M187 207 Q200 224 213 207" fill="none" stroke="#3B2A5C" stroke-width="4.3" stroke-linecap="round"/>
-          </g>
-          <g transform="translate(270 270) rotate(-45) scale(2.3)" stroke="#3B2A5C" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round">
-            <path class="bristle" d="M-6 16 Q-7 4 0 -12 Q7 4 6 16 Z"/>
-            <rect x="-7" y="16" width="14" height="15" rx="3" fill="#B8DCFF"/>
-            <rect x="-5.5" y="31" width="11" height="38" rx="5.5" fill="#FFCBA8"/>
-          </g>
-        </svg>
-      </div>
-      <div class="swatches" role="group" aria-label="Paint colours" id="swatches">
-        <button class="swatch" style="--c:#FFB8D6" data-paint="pink" aria-pressed="true" aria-label="Paint it pink"></button>
-        <button class="swatch" style="--c:#FFEE99" data-paint="butter" aria-pressed="false" aria-label="Paint it butter yellow"></button>
-        <button class="swatch" style="--c:#B5EBD0" data-paint="mint" aria-pressed="false" aria-label="Paint it mint"></button>
-        <button class="swatch" style="--c:#B8DCFF" data-paint="sky" aria-pressed="false" aria-label="Paint it sky blue"></button>
-        <button class="swatch" style="--c:#D4C2FF" data-paint="lilac" aria-pressed="false" aria-label="Paint it lilac"></button>
-        <button class="swatch" style="--c:#FFCBA8" data-paint="peach" aria-pressed="false" aria-label="Paint it peach"></button>
-      </div>
+<!-- ===================== INTRO ===================== -->
+<section class="section intro" aria-labelledby="h-intro">
+  <div class="wrap">
+    <div class="intro__top">
+      <h2 id="h-intro">Two days a week given entirely to making things.</h2>
+      <p>Lavishka’s Art Base is a weekend pottery and art studio in Kavi Nagar. Come alone, with friends or with the family, pick a workshop and make something you will keep. We provide the clay, paints, tools and guidance.</p>
     </div>
+    <ul class="facts">
+      <li><b>Saturday and Sunday</b><span>11 AM to 8 PM</span></li>
+      <li><b>Materials included</b><span>Clay, glazes, paints and aprons</span></li>
+      <li><b>Small batches</b><span>Up to <span data-seats>8</span> people per session</span></li>
+      <li><b>Ages 5 and up</b><span>Sessions for children and adults</span></li>
+    </ul>
   </div>
 </section>
 
 <!-- ===================== WORKSHOPS ===================== -->
-<div class="scallop" style="--from:transparent;--to:var(--butter)" aria-hidden="true"></div>
-<section class="band band--butter" id="workshops" aria-labelledby="h-workshops">
+<section class="section section--tight" id="workshops" aria-labelledby="h-workshops">
   <div class="wrap">
-    <div class="head-row">
-      <div>
-        <h2 id="h-workshops">Pick your weekend project</h2>
-        <p class="section-intro">Everything you need is on the table. Materials, aprons, glazing and firing are all in the price.</p>
-      </div>
-      <div class="filters" role="group" aria-label="Filter workshops by day" id="filters">
-        <button class="chip" data-day="all" aria-pressed="true">All days</button>
-        <button class="chip" data-day="sat" aria-pressed="false">Saturday</button>
-        <button class="chip" data-day="sun" aria-pressed="false">Sunday</button>
+    <div class="sec-head">
+      <h2 id="h-workshops">Workshops</h2>
+      <div class="tabs" id="filters" role="group" aria-label="Filter workshops by day">
+        <button class="tab" type="button" data-day="all" aria-pressed="true">All</button>
+        <button class="tab" type="button" data-day="sat" aria-pressed="false">Saturday</button>
+        <button class="tab" type="button" data-day="sun" aria-pressed="false">Sunday</button>
       </div>
     </div>
     <div class="grid" id="workshop-grid"></div>
   </div>
 </section>
 
-<!-- ===================== WEEKEND PLAN ===================== -->
-<div class="scallop" style="--from:var(--butter);--to:var(--sky)" aria-hidden="true"></div>
-<section class="band band--sky" id="weekend" aria-labelledby="h-weekend">
+<!-- ===================== SCHEDULE ===================== -->
+<section class="section section--white" id="schedule" aria-labelledby="h-schedule">
   <div class="wrap">
-    <h2 id="h-weekend">The weekend plan</h2>
-    <p class="section-intro">One batch per time slot, eight seats each. Pick a slot and we’ll save your spot.</p>
+    <div class="sec-head">
+      <h2 id="h-schedule">Weekend schedule</h2>
+      <p class="sec-head__note">The same timetable runs every weekend.</p>
+    </div>
     <div class="days" id="days"></div>
   </div>
 </section>
 
 <!-- ===================== HOW IT WORKS ===================== -->
-<div class="scallop" style="--from:var(--sky);--to:var(--pink)" aria-hidden="true"></div>
-<section class="band band--pink" id="how" aria-labelledby="h-how">
+<section class="section" id="how" aria-labelledby="h-how">
+  <div class="wrap how">
+    <div>
+      <h2 id="h-how">How booking works</h2>
+      <ol class="steps">
+        <li><div><b>Choose a workshop and a date.</b><p>Use the form below. You can book up to <span data-seats>8</span> seats in one go.</p></div></li>
+        <li><div><b>Pay an advance of <span data-adv>₹250</span> per person.</b><p>Pay by UPI from any app, or pay the full amount now if you prefer.</p></div></li>
+        <li><div><b>Send us the payment screenshot on WhatsApp.</b><p>Your seat is confirmed once we reply.</p></div></li>
+        <li><div><b>Arrive ten minutes early.</b><p>We take care of the rest. The balance is paid at the studio.</p></div></li>
+      </ol>
+    </div>
+    <figure class="how__photo">
+      <img src="assets/img/how.jpg" width="1100" height="657" loading="lazy" alt="A watercolour paint set, a sketchbook and brushes on a wooden table">
+    </figure>
+  </div>
+</section>
+
+<!-- ===================== GALLERY ===================== -->
+<section class="section section--white" id="gallery" aria-labelledby="h-gallery">
   <div class="wrap">
-    <h2 id="h-how">From blank to fired</h2>
-    <ol class="steps">
-      <li class="step"><h3>Book your seat</h3><p>Choose a slot and pay a small advance on UPI. We confirm on WhatsApp.</p></li>
-      <li class="step"><h3>Walk in and pick</h3><p>Choose your plate, clay or canvas. Aprons and tools are ready for you.</p></li>
-      <li class="step"><h3>Make a mess</h3><p>We show you how, then you go wild. Mistakes become the best parts.</p></li>
-      <li class="step"><h3>We glaze and fire</h3><p>We finish your piece in our kiln. Pick it up when we message you.</p></li>
-    </ol>
-    <div class="note">
-      <img src="assets/ill-lamp.svg" alt="">
-      <p>Canvas, resin and moon lamps go home the same day or the next. Plates and clay need the kiln, so give those about ten days.</p>
+    <div class="sec-head">
+      <h2 id="h-gallery">Clay, glaze and colour</h2>
+      <p class="sec-head__note">The kind of work that comes out of a weekend session.</p>
+    </div>
+    <div class="mosaic">
+      <img class="m-a" src="assets/img/g-bottles.jpg" width="1400" height="933" loading="lazy" alt="Rows of glazed ceramic bottles in green, blue and black">
+      <img class="m-b" src="assets/img/g-pots.jpg" width="800" height="1202" loading="lazy" alt="A stack of terracotta pots in low light">
+      <img class="m-c" src="assets/img/g-terracotta.jpg" width="1100" height="733" loading="lazy" alt="Hand-made terracotta bowls and vessels on a stone shelf">
+      <img class="m-d" src="assets/img/g-mud.jpg" width="1100" height="659" loading="lazy" alt="Hands shaping a clay pot on a spinning wheel against a blue wall">
+      <img class="m-e" src="assets/img/g-brushes.jpg" width="1100" height="733" loading="lazy" alt="A glass jar of paintbrushes seen from above">
+      <img class="m-f" src="assets/img/g-wheel.jpg" width="1100" height="733" loading="lazy" alt="A potter’s hands pulling up the walls of a small vase on the wheel">
     </div>
   </div>
 </section>
 
-<!-- ===================== SHELF ===================== -->
-<div class="scallop" style="--from:var(--pink);--to:var(--mint)" aria-hidden="true"></div>
-<section class="band band--mint" id="shelf" aria-labelledby="h-shelf">
-  <div class="wrap">
-    <h2 id="h-shelf">What you could take home</h2>
-    <p class="section-intro">A few of the things we love making. Yours will be completely different, and that’s the point.</p>
-    <div class="shelves">
-      <div class="shelf">
-        <figure><img src="assets/ill-vase.svg" alt="Mint vase with three flowers" loading="lazy"><figcaption>Flower vase</figcaption></figure>
-        <figure><img src="assets/ill-plate.svg" alt="Painted plate with a flower" loading="lazy"><figcaption>Painted plate</figcaption></figure>
-        <figure><img src="assets/ill-mug.svg" alt="Pink polka dot mug" loading="lazy"><figcaption>Pinch-pot mug</figcaption></figure>
-      </div>
-      <div class="shelf">
-        <figure><img src="assets/ill-cactus.svg" alt="Cactus in a painted pot" loading="lazy"><figcaption>Cactus pot</figcaption></figure>
-        <figure><img src="assets/ill-lamp.svg" alt="Glowing moon lamp" loading="lazy"><figcaption>Moon lamp</figcaption></figure>
-        <figure><img src="assets/ill-bowl.svg" alt="Blue bowl with fruit" loading="lazy"><figcaption>Treat bowl</figcaption></figure>
-      </div>
-      <div class="shelf">
-        <figure><img src="assets/ill-canvas.svg" alt="Mini canvas on an easel" loading="lazy"><figcaption>Mini canvas</figcaption></figure>
-        <figure><img src="assets/ill-resin.svg" alt="Swirly resin coaster" loading="lazy"><figcaption>Resin coaster</figcaption></figure>
-        <figure><img src="assets/ill-wheel.svg" alt="Vase on a pottery wheel" loading="lazy"><figcaption>Wheel-thrown vase</figcaption></figure>
-      </div>
+<!-- ===================== GROUPS ===================== -->
+<section class="section band-celadon" id="groups" aria-labelledby="h-groups">
+  <div class="wrap groups">
+    <img class="groups__photo" src="assets/img/groups.jpg" width="1300" height="867" loading="lazy" alt="A circle of hands, several painted red, reaching towards the centre">
+    <div>
+      <h2 id="h-groups">Bringing a group?</h2>
+      <p>Birthdays, team outings and school groups of six or more can ask for a private batch. Tell us the date and the number of people, and we will plan the session around you.</p>
+      <p class="groups__actions"><a class="btn" id="group-cta" href="#visit">Contact the studio</a></p>
     </div>
   </div>
 </section>
 
 <!-- ===================== BOOKING ===================== -->
-<div class="scallop" style="--from:var(--mint);--to:var(--lilac)" aria-hidden="true"></div>
-<section class="band band--lilac" id="book" aria-labelledby="h-book">
+<section class="section" id="book" aria-labelledby="h-book">
   <div class="wrap">
-    <h2 id="h-book">Grab your seat</h2>
-    <p class="section-intro">Pick a workshop, pay a small advance on UPI, then send us the screenshot on WhatsApp. That’s it.</p>
+    <div class="sec-head">
+      <h2 id="h-book">Book your session</h2>
+      <p class="sec-head__note">Pay a small advance on UPI, then send us the screenshot on WhatsApp.</p>
+    </div>
 
     <div class="book">
       <div class="panel" id="book-panel">
         <form class="form" id="book-form" novalidate>
           <div class="form-grid">
             <div class="field field--full">
-              <label for="f-workshop">What do you want to make?</label>
+              <label for="f-workshop">Workshop</label>
               <select id="f-workshop" name="workshop"></select>
             </div>
             <div class="field">
-              <label for="f-date">Which day?</label>
+              <label for="f-date">Date</label>
               <select id="f-date" name="date"></select>
               <p class="hint" id="f-time"></p>
             </div>
             <div class="field">
-              <span class="label" id="people-label">How many people?</span>
+              <span class="label" id="people-label">Number of people</span>
               <div class="stepper" role="group" aria-labelledby="people-label">
                 <button type="button" id="p-minus" aria-label="One person less">−</button>
                 <output id="f-people" aria-live="polite">2</output>
                 <button type="button" id="p-plus" aria-label="One person more">+</button>
               </div>
-              <p class="hint">Up to 8 per batch.</p>
+              <p class="hint">Up to <span data-seats>8</span> per batch.</p>
             </div>
             <div class="field" id="fld-name">
               <label for="f-name">Your name</label>
-              <input id="f-name" name="name" autocomplete="name" placeholder="e.g. Aarohi" required>
+              <input id="f-name" name="name" autocomplete="name" placeholder="Full name" required>
               <p class="err" id="err-name" role="alert"></p>
             </div>
             <div class="field" id="fld-phone">
@@ -236,40 +195,33 @@
               <p class="err" id="err-phone" role="alert"></p>
             </div>
             <div class="field field--full">
-              <label for="f-notes">Anything we should know? (optional)</label>
-              <textarea id="f-notes" name="notes" rows="2" placeholder="Kids’ ages, a birthday, a colour theme you love"></textarea>
+              <label for="f-notes">Notes <span class="opt-tag">optional</span></label>
+              <textarea id="f-notes" name="notes" rows="2" placeholder="Children’s ages, a birthday, anything we should prepare"></textarea>
             </div>
-            <fieldset class="field field--full" style="border:0;padding:0;margin:0">
-              <legend class="label" style="padding:0;margin-bottom:.5rem">How would you like to pay?</legend>
+            <fieldset class="field field--full fieldset">
+              <legend class="label">Payment</legend>
               <div class="pay-opts">
-                <label class="opt"><input type="radio" name="pay" value="advance" checked><span class="opt__box"><span>Advance now<small>Adjusted in your final bill. Rest at the studio.</small></span><b id="opt-adv">₹500</b></span></label>
-                <label class="opt"><input type="radio" name="pay" value="full"><span class="opt__box"><span>Pay in full now<small>Walk in and just paint.</small></span><b id="opt-full">₹1,598</b></span></label>
+                <label class="opt"><input type="radio" name="pay" value="advance" checked><span class="opt__box"><span>Advance now<small>Adjusted in your final bill. Balance at the studio.</small></span><b id="opt-adv">₹500</b></span></label>
+                <label class="opt"><input type="radio" name="pay" value="full"><span class="opt__box"><span>Pay in full now<small>Nothing left to pay at the studio.</small></span><b id="opt-full">₹1,598</b></span></label>
               </div>
             </fieldset>
           </div>
-          <button class="btn btn--wide" type="submit" style="margin-top:1.4rem">Continue to payment</button>
-          <div class="methods" aria-label="Payment methods">
-            <span class="pill pill--mint">UPI</span><span class="pill pill--butter">GPay</span><span class="pill pill--sky">PhonePe</span><span class="pill pill--pink">Paytm</span>
-          </div>
+          <button class="btn btn--wide" type="submit">Continue to payment</button>
+          <p class="methods">Pay with any UPI app, including Google Pay, PhonePe and Paytm.</p>
         </form>
 
         <div class="pay" id="pay" hidden></div>
       </div>
 
       <aside class="ticket" aria-label="Your booking summary">
-        <div class="ticket__top">
-          <div class="ticket__head">
-            <h3 id="t-title">Your booking</h3>
-            <img class="ticket__art" id="t-art" src="assets/ill-plate.svg" alt="">
-          </div>
+        <img class="ticket__photo" id="t-art" src="assets/img/plate.jpg" width="960" height="720" alt="">
+        <div class="ticket__body">
+          <h3 id="t-title">Your booking</h3>
           <dl>
             <div><dt>When</dt><dd id="t-when">Pick a day</dd></div>
             <div><dt>Seats</dt><dd id="t-seats">2</dd></div>
             <div><dt>Per person</dt><dd id="t-each">₹0</dd></div>
           </dl>
-        </div>
-        <div class="ticket__cut"></div>
-        <div class="ticket__bot">
           <div class="ticket__total"><span>Total</span><strong id="t-total">₹0</strong></div>
           <p class="hint" id="t-now"></p>
         </div>
@@ -278,28 +230,20 @@
   </div>
 </section>
 
-<!-- ===================== FIND US + FAQ ===================== -->
-<div class="scallop" style="--from:var(--lilac);--to:var(--milk)" aria-hidden="true"></div>
-<section class="band band--milk" id="find" aria-labelledby="h-find">
+<!-- ===================== VISIT ===================== -->
+<section class="section section--white" id="visit" aria-labelledby="h-visit">
   <div class="wrap">
-    <h2 id="h-find">Come say hi</h2>
-    <div class="find">
-      <div class="panel find__card">
-        <div class="find__row">
-          <img src="assets/ill-vase.svg" alt="">
-          <p><strong>Lavishka’s Art Base</strong>B-54, Sector 18, Kavi Nagar<br>Ghaziabad</p>
-        </div>
-        <div class="find__row">
-          <img src="assets/ill-lamp.svg" alt="">
-          <p><strong>Open Saturday and Sunday</strong>11 AM to 8 PM. Closed Monday to Friday, except for private group bookings.</p>
-        </div>
-        <div class="find__row">
-          <img src="assets/ill-mug.svg" alt="">
-          <p><strong>Bring a group</strong>Birthdays, kitty parties or office outings of 6 or more can ask for a private batch.</p>
-        </div>
-        <div class="stack" id="find-actions">
-          <a class="btn btn--butter" href="https://www.google.com/maps/dir/?api=1&amp;destination=28.668813,77.447043" target="_blank" rel="noopener">Get directions</a>
-          <a class="btn btn--white" href="https://www.google.com/maps/search/?api=1&amp;query=28.668813,77.447043" target="_blank" rel="noopener">Open in Google Maps</a>
+    <h2 id="h-visit" class="h-solo">Visit the studio</h2>
+    <div class="visit">
+      <div class="visit__info">
+        <dl class="info">
+          <div><dt>Address</dt><dd>Lavishka’s Art Base<br>B-54, Sector 18, Kavi Nagar<br>Ghaziabad</dd></div>
+          <div><dt>Hours</dt><dd>Saturday and Sunday, 11 AM to 8 PM<br>Closed Monday to Friday, except for private group bookings.</dd></div>
+          <div><dt>Contact</dt><dd id="footer-contact">Book a seat above and we will message you on WhatsApp.</dd></div>
+        </dl>
+        <div class="actions" id="find-actions">
+          <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=28.668813,77.447043" target="_blank" rel="noopener">Get directions</a>
+          <a class="btn btn--ghost" href="https://www.google.com/maps/search/?api=1&amp;query=28.668813,77.447043" target="_blank" rel="noopener">Open in Google Maps</a>
         </div>
       </div>
       <div class="map">
@@ -307,15 +251,20 @@
           src="https://maps.google.com/maps?q=28.668813,77.447043&amp;z=17&amp;hl=en&amp;output=embed"></iframe>
       </div>
     </div>
+  </div>
+</section>
 
-    <h2 style="margin-top:4.5rem" id="h-faq">Good to know</h2>
+<!-- ===================== FAQ ===================== -->
+<section class="section" id="faq" aria-labelledby="h-faq">
+  <div class="wrap faq-wrap">
+    <h2 id="h-faq">Good to know</h2>
     <div class="faq">
-      <details><summary>Do I need any experience?</summary><p>None at all. We show you each step, and kids and grown-ups start at the same place.</p></details>
-      <details><summary>What age can join?</summary><p>Most workshops start at 6, with a grown-up for under 10s. The pottery wheel is best from 10 and up.</p></details>
-      <details><summary>What should I wear?</summary><p>Clothes that can get messy. We give you an apron, but clay and paint have minds of their own.</p></details>
-      <details><summary>When do I get my piece?</summary><p>Canvas, resin and moon lamps are ready the same day or the next. Plates and clay go through the kiln, so pick them up in about ten days. We message you when they’re ready.</p></details>
-      <details><summary>Can I reschedule or cancel?</summary><p>You can move your booking once if you tell us 24 hours before. Inside 24 hours, the advance isn’t refundable.</p></details>
-      <details><summary>How does payment work?</summary><p>Pay a small advance per person on UPI to hold your seat, and the rest at the studio. You can also pay in full up front. Your seat is confirmed once we reply on WhatsApp.</p></details>
+      <details><summary>Do I need any experience?</summary><p>None at all. We show you each step, and children and adults start from the same place.</p></details>
+      <details><summary>What ages can join?</summary><p>Most workshops start at 6, with a grown-up staying for children under 10. Little Potters is for ages 5 to 10. The pottery wheel is best from 10 and up.</p></details>
+      <details><summary>What should I wear?</summary><p>Clothes you don’t mind getting marked. We provide an apron, but clay and paint travel.</p></details>
+      <details><summary>When do I get my piece?</summary><p>Canvas and watercolour pieces go home the same day. Plates and clay pieces are glazed and fired in the kiln, so collect them in about ten days. We message you when they are ready.</p></details>
+      <details><summary>Can I reschedule or cancel?</summary><p>You can move your booking once if you tell us 24 hours before. Inside 24 hours, the advance is not refundable.</p></details>
+      <details><summary>How does payment work?</summary><p>Pay a small advance per person on UPI to hold your seat, and the balance at the studio. You can also pay in full up front. Your seat is confirmed once we reply on WhatsApp.</p></details>
     </div>
   </div>
 </section>
@@ -323,25 +272,23 @@
 </main>
 
 <!-- ===================== FOOTER ===================== -->
-<div class="scallop" style="--from:transparent;--to:var(--ink)" aria-hidden="true"></div>
 <footer class="footer">
   <div class="wrap">
     <div class="footer__grid">
       <div class="footer__brand">
-        <img src="assets/logo-mark.svg" alt="">
-        <div><strong>Lavishka’s<br>Art Base</strong><span>Made with clay, paint and a little chaos.</span></div>
+        <img src="assets/logo-mark.svg" width="44" height="44" alt="">
+        <div><b>Lavishka’s Art Base</b><span>Weekend pottery and art studio</span></div>
       </div>
       <div>
-        <h3>Visit</h3>
+        <h3>Studio</h3>
         <p>B-54, Sector 18, Kavi Nagar<br>Ghaziabad<br>Saturday and Sunday, 11 AM to 8 PM</p>
       </div>
       <div>
-        <h3>Say hello</h3>
-        <p id="footer-contact">Book a seat above and we’ll message you on WhatsApp.</p>
-        <p style="margin-top:.6rem"><a href="#book">Book a seat</a></p>
+        <h3>Explore</h3>
+        <p><a href="#workshops">Workshops</a><br><a href="#schedule">Schedule</a><br><a href="#book">Book a session</a></p>
       </div>
     </div>
-    <div class="footer__fine"><span>© 2026 Lavishka’s Art Base</span><span>LAB for short</span></div>
+    <div class="footer__fine"><span>© 2026 Lavishka’s Art Base</span><a href="credits.html">Photo credits</a></div>
   </div>
 </footer>
 
