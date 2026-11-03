@@ -25,30 +25,14 @@ const LAB = {
    `when` = which day it runs and the start time (24-hour). Prices are drafts.
    ========================================================================== */
 const WORKSHOPS = [
-  { id: "plate",      name: "Plate Painting",        img: "plate.jpg",      pos: "50% 60%",
-    alt: "A hand painting a pattern onto a ceramic plate as it turns",
-    blurb: "Choose a plain ceramic plate and paint your own design. We glaze and fire it for you.",
-    mins: 90,  age: "6+",   price: 799,  when: { sat: "11:00", sun: "16:00" } },
-  { id: "wheel",      name: "Pottery Wheel",         img: "wheel.jpg",      pos: "50% 50%",
-    alt: "A potter’s hands shaping clay on a spinning wheel, seen from above",
-    blurb: "Centre the clay, open it up and pull your own bowl or vase with a teacher at your side.",
-    mins: 120, age: "10+",  price: 1299, when: { sat: "13:00" } },
-  { id: "handbuild",  name: "Mugs and Pinch Pots",   img: "handbuild.jpg",  pos: "45% 50%",
-    alt: "Hands pressing and shaping a lump of clay on a wooden table",
-    blurb: "No wheel needed. Pinch, coil and press a mug and a small pot, then decorate them.",
-    mins: 120, age: "6+",   price: 999,  when: { sun: "11:00" } },
   { id: "canvas",     name: "Acrylic Canvas Painting", img: "canvas.jpg",   pos: "50% 50%",
     alt: "A bowl of mixed acrylic paint with a brush resting in it",
     blurb: "Paint a canvas of your own in acrylics, with simple guidance on colour and brushwork.",
-    mins: 90,  age: "6+",   price: 699,  when: { sat: "15:30" } },
+    mins: 90,  age: "6+",   price: 699,  when: { sat: "11:00", sun: "11:00" } },
   { id: "watercolor", name: "Watercolour Studio",    img: "watercolor.jpg", pos: "62% 45%",
     alt: "A hand painting with a fine brush on watercolour paper",
     blurb: "Learn washes, layering and control, then finish a small painting to take home.",
-    mins: 90,  age: "12+",  price: 649,  when: { sat: "17:30" } },
-  { id: "kids",       name: "Little Potters",        img: "kids.jpg",       pos: "45% 50%",
-    alt: "A child watching an adult shape clay on a spinning pottery wheel",
-    blurb: "A relaxed clay session for children. A grown-up is welcome to join and make alongside.",
-    mins: 90,  age: "5 to 10", price: 899,  when: { sun: "13:30" } }
+    mins: 90,  age: "12+",  price: 649,  when: { sat: "15:30", sun: "15:30" } }
 ];
 
 

@@ -1,6 +1,6 @@
 /* ==========================================================================
    Lavishka’s Art Base
-   Palette is taken from glazed ware: porcelain white, cobalt underglaze, celadon.
+   Palette: porcelain white, cobalt, celadon.
    Type: Newsreader (display, prices) and Hanken Grotesk (text and interface).
    ========================================================================== */
 
@@ -118,10 +118,10 @@ h2{font-size:clamp(2rem,4vw,3.125rem);line-height:1.1;letter-spacing:-.02em}
 .tab[aria-pressed="true"]{background:var(--ink);color:#fff}
 
 /* ---------- workshop cards ---------- */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(2rem,4vw,3rem) clamp(1.25rem,2.5vw,2rem)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:clamp(2rem,4vw,3rem) clamp(1.25rem,2.5vw,2rem)}
 .card{display:flex;flex-direction:column}
 .card[hidden]{display:none}
-.card__img{aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:var(--line)}
+.card__img{aspect-ratio:3/2;overflow:hidden;border-radius:var(--r);background:var(--line)}
 .card__img img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 50%)}
 .card h3{font-size:1.625rem;line-height:1.15;letter-spacing:-.01em;margin:1.1rem 0 .45rem;font-weight:500}
 .card p{color:var(--ink-2);font-size:1rem}
