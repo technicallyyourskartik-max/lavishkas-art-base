@@ -70,10 +70,8 @@
 <!-- ===================== STATEMENT ===================== -->
 <section class="section section--flush-top" aria-labelledby="h-intro">
   <div class="wrap">
-    <div class="statement__grid">
-      <h2 class="statement__text reveal" id="h-intro">Two days a week given entirely to making things. Come alone, with friends or with the family, pick a workshop and make something you will keep.</h2>
-    </div>
-    <ul class="facts reveal">
+    <h2 class="intro__text reveal" id="h-intro">Two days a week given entirely to making things. Come alone, with friends or with the family, pick a workshop and make something you will keep.</h2>
+    <ul class="stub reveal">
       <li><b>Saturday and Sunday</b><span>11 AM to 8 PM</span></li>
       <li><b>Materials included</b><span>Every tool and material for your workshop, plus an apron</span></li>
       <li><b>Small batches</b><span>Up to <span data-seats>8</span> people per session</span></li>
@@ -83,12 +81,12 @@
 </section>
 
 <!-- ===================== WORKSHOPS ===================== -->
-<section class="section section--flush-top" id="workshops" aria-labelledby="h-workshops">
+<section class="section board" id="workshops" aria-labelledby="h-workshops">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="board__frame">
       <h2 id="h-workshops">Workshops</h2>
+      <div class="menu" id="workshop-grid"></div>
     </div>
-    <div class="wks" id="workshop-grid"></div>
   </div>
 </section>
 
@@ -106,10 +104,7 @@
 <!-- ===================== HOW IT WORKS ===================== -->
 <section class="section" id="how" aria-labelledby="h-how">
   <div class="wrap how">
-    <figure class="how__photo reveal">
-      <img src="assets/img/how.jpg" width="1100" height="657" loading="lazy" alt="A watercolour paint set, a sketchbook and brushes on a wooden table">
-    </figure>
-    <div class="how__body">
+        <div class="how__body">
       <h2 id="h-how">How booking works</h2>
       <ol class="steps">
         <li><div><b>Choose a workshop and a date.</b><p>Use the form below. You can book up to <span data-seats>8</span> seats in one go.</p></div></li>
@@ -127,25 +122,19 @@
     <div class="sec-head">
       <h2 id="h-gallery">Paper, paint and colour</h2>
     </div>
-    <div class="mos">
-      <div class="mos__col">
-        <figure class="a32 reveal"><img src="assets/img/g-hands.jpg" width="1400" height="933" loading="lazy" alt="Paint-covered hands holding a pencil and a brush over a table of bright paints"></figure>
-        <figure class="a11 reveal"><img src="assets/img/g-studio.jpg" width="1100" height="733" loading="lazy" alt="A busy art table crowded with brushes, tins and tubes of paint"></figure>
-      </div>
-      <div class="mos__col">
-        <figure class="a45 reveal"><img src="assets/img/g-easels.jpg" width="800" height="1080" loading="lazy" alt="A student standing among wooden easels in a bright art room"></figure>
-        <figure class="a32 reveal"><img src="assets/img/g-brushes.jpg" width="1100" height="733" loading="lazy" alt="A glass jar of paintbrushes seen from above"></figure>
-      </div>
-      <div class="mos__col">
-        <figure class="a45 reveal"><img src="assets/img/g-flowers.jpg" width="1100" height="733" loading="lazy" alt="A watercolour painting of red flowers beside a paint tray and brush"></figure>
-        <figure class="a32 reveal"><img src="assets/img/g-sketch.jpg" width="1100" height="733" loading="lazy" alt="A woman sketching a portrait on an easel outdoors, in black and white"></figure>
-      </div>
+    <div class="polas">
+      <figure class="pola reveal" style="--rot:-1.4deg"><img src="assets/img/g-hands.jpg" width="1400" height="933" loading="lazy" alt="Paint-covered hands holding a pencil and a brush over a table of bright paints"><figcaption>Paint on both hands</figcaption></figure>
+      <figure class="pola reveal" style="--rot:1deg;--ar:4/5"><img src="assets/img/g-easels.jpg" width="800" height="1080" loading="lazy" alt="A student standing among wooden easels in a bright art room"><figcaption>A room full of easels</figcaption></figure>
+      <figure class="pola reveal" style="--rot:-.6deg"><img src="assets/img/g-flowers.jpg" width="1100" height="733" loading="lazy" alt="A watercolour painting of red flowers beside a paint tray and brush"><figcaption>Watercolour florals</figcaption></figure>
+      <figure class="pola reveal" style="--rot:1.5deg"><img src="assets/img/g-studio.jpg" width="1100" height="733" loading="lazy" alt="A busy art table crowded with brushes, tins and tubes of paint"><figcaption>The paint table</figcaption></figure>
+      <figure class="pola reveal" style="--rot:-1.1deg"><img src="assets/img/g-sketch.jpg" width="1100" height="733" loading="lazy" alt="A woman sketching a portrait on an easel outdoors, in black and white"><figcaption>Sketching at the easel</figcaption></figure>
+      <figure class="pola reveal" style="--rot:.8deg"><img src="assets/img/how.jpg" width="1100" height="657" loading="lazy" alt="A watercolour paint set, a sketchbook and brushes on a wooden table"><figcaption>Sketchbook and brushes</figcaption></figure>
     </div>
   </div>
 </section>
 
 <!-- ===================== GROUPS ===================== -->
-<section class="section section--dark" id="groups" aria-labelledby="h-groups">
+<section class="section section--amber" id="groups" aria-labelledby="h-groups">
   <div class="wrap groups">
     <div class="groups__body">
       <h2 id="h-groups">Bringing a group?</h2>
@@ -253,16 +242,16 @@
 
 <!-- ===================== FAQ ===================== -->
 <section class="section" id="faq" aria-labelledby="h-faq">
-  <div class="wrap faq-wrap">
+  <div class="wrap">
     <h2 id="h-faq">Good to know</h2>
-    <div class="faq">
-      <details><summary>Do I need any experience?</summary><p>None at all. We show you each step, and children and adults start from the same place.</p></details>
-      <details><summary>What ages can join?</summary><p>Each workshop lists its minimum age, from 6 up to 12. A grown-up stays with children under 10.</p></details>
-      <details><summary>What should I wear?</summary><p>Clothes you don’t mind getting marked. We provide an apron, but paint, ink and wax travel.</p></details>
-      <details><summary>When do I get my piece?</summary><p>Most pieces go home with you at the end of the session. If something needs time to set, such as a mosaic or a candle, we will tell you how long during the session.</p></details>
-      <details><summary>Can I reschedule or cancel?</summary><p>You can move your booking once if you tell us 24 hours before. Inside 24 hours, the payment is not refundable.</p></details>
-      <details><summary>How does payment work?</summary><p>You pay the full amount up front on UPI, then send us the screenshot on WhatsApp. Your seat is confirmed once we reply, and there is nothing more to pay at the studio.</p></details>
-    </div>
+    <dl class="qa">
+      <div><dt>Do I need any experience?</dt><dd>None at all. We show you each step, and children and adults start from the same place.</dd></div>
+      <div><dt>What ages can join?</dt><dd>Each workshop lists its minimum age, from 6 up to 12. A grown-up stays with children under 10.</dd></div>
+      <div><dt>What should I wear?</dt><dd>Clothes you don’t mind getting marked. We provide an apron, but paint, ink and wax travel.</dd></div>
+      <div><dt>When do I get my piece?</dt><dd>Most pieces go home with you at the end of the session. If something needs time to set, such as a mosaic or a candle, we will tell you how long during the session.</dd></div>
+      <div><dt>Can I reschedule or cancel?</dt><dd>You can move your booking once if you tell us 24 hours before. Inside 24 hours, the payment is not refundable.</dd></div>
+      <div><dt>How does payment work?</dt><dd>You pay the full amount up front on UPI, then send us the screenshot on WhatsApp. Your seat is confirmed once we reply, and there is nothing more to pay at the studio.</dd></div>
+    </dl>
   </div>
 </section>
 
@@ -271,22 +260,13 @@
 <!-- ===================== FOOTER ===================== -->
 <footer class="footer">
   <div class="wrap">
-    <span class="footer__mark" aria-hidden="true">Lavishka’s Art Base</span>
-    <div class="footer__grid">
-      <div>
-        <h3>Studio</h3>
-        <p>B-54, Sector 18, Kavi Nagar<br>Ghaziabad<br>Saturday and Sunday, 11 AM to 8 PM</p>
-      </div>
-      <div>
-        <h3>Explore</h3>
-        <p><a href="#workshops">Workshops</a><br><a href="#schedule">Schedule</a><br><a href="#book">Book a seat</a></p>
-      </div>
-      <div>
-        <h3>Contact</h3>
-        <p id="footer-links">Book a seat and we will message you on WhatsApp.</p>
-      </div>
+    <div class="footer__row">
+      <b class="footer__name">Lavishka’s Art Base</b>
+      <p>B-54, Sector 18, Kavi Nagar<br>Ghaziabad<br>Saturday and Sunday, 11 AM to 8 PM</p>
+      <p id="footer-links">Book a seat and we will message you on WhatsApp.</p>
+      <nav class="footer__links" aria-label="Footer"><a href="#workshops">Workshops</a><a href="#schedule">Schedule</a><a href="#book">Book a seat</a><a href="credits.html">Photo credits</a></nav>
     </div>
-    <div class="footer__fine"><span>© 2026 Lavishka’s Art Base</span><a href="credits.html">Photo credits</a></div>
+    <p class="footer__fine">© 2026 Lavishka’s Art Base</p>
   </div>
 </footer>
 

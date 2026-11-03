@@ -136,27 +136,20 @@ function renderCards() {
     const list = WORKSHOPS.filter(w => w.cat === c.id);
     if (!list.length) return "";
     return `
-    <div class="cat">
-      <div class="cat__head"><h3>${c.name}</h3><span>${list.length} ${list.length > 1 ? "workshops" : "workshop"}</span></div>
-      ${list.map(w => `
-      <article class="wk reveal">
-        <figure class="wk__img"><img src="assets/img/${w.img}" width="960" height="720" loading="lazy" alt="${esc(w.alt)}" style="--pos:${w.pos}"></figure>
-        <div class="wk__body">
-          <h4>${w.name}</h4>
-          <p class="wk__blurb">${w.blurb}</p>
-        </div>
-        <div class="wk__aside">
-          <dl class="wk__facts">
-            <div><dt>Length</dt><dd>${w.mins} minutes</dd></div>
-            <div><dt>Ages</dt><dd>${w.age}</dd></div>
-            <div><dt>Runs on</dt><dd>${Object.keys(w.when).map(k => DAYNAME[k]).join(" and ")}</dd></div>
-          </dl>
-          <div class="wk__foot">
-            <div class="price">${inr(w.price)}<small>per person</small></div>
-            <a class="btn" href="#book" data-book="${w.id}">Book</a>
+    <div class="menu__cat reveal">
+      <h3>${c.name}</h3>
+      <ul>
+        ${list.map(w => `
+        <li class="dish">
+          <img class="dish__thumb" src="assets/img/${w.img}" width="96" height="72" loading="lazy" alt="${esc(w.alt)}" style="--pos:${w.pos}">
+          <div class="dish__main">
+            <div class="dish__line"><h4>${w.name}</h4><span class="dish__dots" aria-hidden="true"></span><span class="dish__price">${inr(w.price)}</span></div>
+            <p class="dish__desc">${w.blurb}</p>
+            <p class="dish__meta"><span>${w.mins} minutes</span><span>Ages ${w.age}</span><span>${Object.keys(w.when).map(k => DAYNAME[k]).join(" and ")}</span></p>
           </div>
-        </div>
-      </article>`).join("")}
+          <a class="dish__book" href="#book" data-book="${w.id}" aria-label="Book ${esc(w.name)}">Book</a>
+        </li>`).join("")}
+      </ul>
     </div>`;
   }).join("");
 }
