@@ -109,31 +109,22 @@ async function copyText(text) {
    ========================================================================== */
 function renderCards() {
   $("#workshop-grid").innerHTML = WORKSHOPS.map(w => `
-    <article class="card" data-days="${Object.keys(w.when).join(" ")}">
-      <div class="card__img"><img src="assets/img/${w.img}" width="960" height="720" loading="lazy" alt="${esc(w.alt)}" style="--pos:${w.pos}"></div>
-      <h3>${w.name}</h3>
-      <p>${w.blurb}</p>
-      <ul class="facts-inline" aria-label="Details">
-        <li>${w.mins} minutes</li>
-        <li>Ages ${w.age}</li>
-        <li>${Object.keys(w.when).map(k => DAYNAME[k]).join(" and ")}</li>
-      </ul>
-      <div class="card__foot">
-        <div class="price">${inr(w.price)}<small>per person</small></div>
-        <a class="btn btn--sm" href="#book" data-book="${w.id}">Book</a>
+    <article class="wk reveal">
+      <figure class="wk__img"><img src="assets/img/${w.img}" width="960" height="720" loading="lazy" alt="${esc(w.alt)}" style="--pos:${w.pos}"></figure>
+      <div class="wk__body">
+        <h3>${w.name}</h3>
+        <p class="wk__blurb">${w.blurb}</p>
+        <dl class="wk__facts">
+          <div><dt>Length</dt><dd>${w.mins} minutes</dd></div>
+          <div><dt>Ages</dt><dd>${w.age}</dd></div>
+          <div><dt>Runs on</dt><dd>${Object.keys(w.when).map(k => DAYNAME[k]).join(" and ")}</dd></div>
+        </dl>
+        <div class="wk__foot">
+          <div class="price">${inr(w.price)}<small>per person</small></div>
+          <a class="btn" href="#book" data-book="${w.id}">Book this workshop</a>
+        </div>
       </div>
     </article>`).join("");
-}
-
-function initFilters() {
-  const chips = $$("#filters .tab");
-  chips.forEach(chip => chip.addEventListener("click", () => {
-    chips.forEach(c => c.setAttribute("aria-pressed", String(c === chip)));
-    const day = chip.dataset.day;
-    $$("#workshop-grid .card").forEach(card => {
-      card.hidden = !(day === "all" || card.dataset.days.split(" ").includes(day));
-    });
-  }));
 }
 
 /* ==========================================================================
@@ -144,7 +135,7 @@ function renderDays() {
     const rows = WORKSHOPS.filter(w => w.when[k]).sort((a, b) => a.when[k].localeCompare(b.when[k]));
     const next = nextDateFor(k);
     return `
-      <section class="day" aria-label="${DAYNAME[k]}">
+      <section class="day reveal" aria-label="${DAYNAME[k]}">
         <div class="day__head">
           <h3>${DAYNAME[k]}</h3>
           <span>Next: ${fmtDate(next)}</span>
@@ -407,7 +398,10 @@ function initContacts() {
     }
   }
   if (LAB.instagram) bits.push(`Instagram: <a href="https://instagram.com/${LAB.instagram}" target="_blank" rel="noopener">@${LAB.instagram}</a>`);
-  if (bits.length) $("#footer-contact").innerHTML = bits.join("<br>");
+  if (bits.length) {
+    $("#footer-contact").innerHTML = bits.join("<br>");
+    $("#footer-links").innerHTML = bits.join("<br>");
+  }
 }
 
 /* ==========================================================================
@@ -451,12 +445,41 @@ function initNav() {
   document.addEventListener("keydown", e => { if (e.key === "Escape") set(false); });
 }
 
+/* ==========================================================================
+   motion: scroll reveals, a gentle hero parallax and the header rule.
+   Everything here is skipped for visitors who ask for reduced motion.
+   ========================================================================== */
+function initMotion() {
+  const header = $(".site-header");
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hero = $("[data-parallax]");
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      header.classList.toggle("is-scrolled", scrollY > 8);
+      if (hero && !still && scrollY < innerHeight * 1.2) hero.style.setProperty("--py", Math.min(scrollY * 0.07, 80) + "px");
+      ticking = false;
+    });
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  const items = $$(".reveal");
+  if (still || !("IntersectionObserver" in window)) { items.forEach(el => el.classList.add("is-in")); return; }
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+  }), { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+  items.forEach(el => io.observe(el));
+}
+
 /* ---------- go ---------- */
 renderCards();
 renderDays();
-initFilters();
 initBooking();
 initContacts();
 initQuick();
 initFacts();
 initNav();
+initMotion();
