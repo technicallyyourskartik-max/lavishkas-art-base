@@ -15,7 +15,6 @@ const LAB = {
   paymentLink: "",         // optional: a Razorpay / Cashfree payment link for cards and netbanking
   instagram: "",           // optional: handle without @. Example: "lavishkas.artbase"
 
-  advancePerPerson: 250,   // rupees per person to hold a seat
   seatsPerBatch: 8,
   weekendsAhead: 6         // how many weekends of dates the booking form offers
 };
@@ -179,9 +178,7 @@ function snapshot() {
   const key = opt ? opt.dataset.key : null;
   const start = key ? w.when[key] : null;
   const total = w.price * people;
-  const advance = Math.min(total, LAB.advancePerPerson * people);
-  const pay = form.elements.pay.value;
-  return { w, date, key, start, end: start ? addMins(start, w.mins) : null, people, total, advance, pay, payNow: pay === "full" ? total : advance };
+  return { w, date, key, start, end: start ? addMins(start, w.mins) : null, people, total };
 }
 
 function updateTicket() {
@@ -196,11 +193,7 @@ function updateTicket() {
   $("#t-each").textContent = inr(s.w.price);
   $("#t-total").textContent = inr(s.total);
   $("#f-people").textContent = s.people;
-  $("#opt-adv").textContent = inr(s.advance);
-  $("#opt-full").textContent = inr(s.total);
-  $("#t-now").textContent = s.pay === "full"
-    ? `You pay ${inr(s.payNow)} now. Nothing left at the studio.`
-    : `You pay ${inr(s.payNow)} now and ${inr(s.total - s.payNow)} at the studio.`;
+  $("#t-now").textContent = `You pay ${inr(s.total)} in full to confirm your ${s.people > 1 ? "seats" : "seat"}.`;
   $("#p-minus").disabled = people <= 1;
   $("#p-plus").disabled = people >= LAB.seatsPerBatch;
 }
@@ -234,7 +227,7 @@ function upiLink(b) {
   const q = new URLSearchParams({
     pa: LAB.upiId || PLACEHOLDER_UPI,
     pn: LAB.payeeName,
-    am: b.payNow.toFixed(2),
+    am: b.total.toFixed(2),
     cu: "INR",
     tn: `${b.ref} ${b.w.name}`
   });
@@ -259,7 +252,7 @@ function waText(b) {
     `Phone: ${b.phone}`,
     b.notes ? `Notes: ${b.notes}` : null,
     `Total: ${inr(b.total)}`,
-    `Paid now: ${inr(b.payNow)}` + (b.payNow < b.total ? ` (balance ${inr(b.total - b.payNow)} at the studio)` : ""),
+    `Paid in full: ${inr(b.total)}`,
     `Booking ref: ${b.ref}`,
     "",
     "Payment screenshot attached."
@@ -297,7 +290,7 @@ function showPay(b) {
 
     <section class="pay__step">
       <h4><span class="n">1</span>Pay by UPI</h4>
-      <div class="pay__amount">${inr(b.payNow)}</div>
+      <div class="pay__amount">${inr(b.total)}</div>
       <div class="pay__row">
         <div class="qr only-desktop" id="qr">${qrSvg(upi)}</div>
         <div class="stack">
@@ -318,9 +311,9 @@ function showPay(b) {
     </section>
 
     <ul class="policy" aria-label="Booking rules">
-      <li>Your advance is adjusted in your final bill.</li>
+      <li>You are paying in full, so there is nothing more to pay at the studio.</li>
       <li>Move your booking once for free if you tell us 24 hours before.</li>
-      <li>Inside 24 hours, the advance is not refundable.</li>
+      <li>Inside 24 hours, the payment is not refundable.</li>
     </ul>
 
     <div class="stack">
@@ -346,7 +339,6 @@ function initBooking() {
 
   $("#f-workshop").addEventListener("change", () => { fillDates(); updateTicket(); });
   $("#f-date").addEventListener("change", updateTicket);
-  $$('input[name="pay"]').forEach(r => r.addEventListener("change", updateTicket));
   $("#p-minus").addEventListener("click", () => { people = Math.max(1, people - 1); updateTicket(); });
   $("#p-plus").addEventListener("click", () => { people = Math.min(LAB.seatsPerBatch, people + 1); updateTicket(); });
   $("#f-phone").addEventListener("input", e => { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 10); });
@@ -430,7 +422,6 @@ function initQuick() {
 
 /* small facts that come from the config */
 function initFacts() {
-  $$("[data-adv]").forEach(el => { el.textContent = inr(LAB.advancePerPerson); });
   $$("[data-seats]").forEach(el => { el.textContent = LAB.seatsPerBatch; });
 }
 
