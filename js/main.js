@@ -129,61 +129,122 @@ async function copyText(text) {
 }
 
 /* ==========================================================================
-   workshops grid + filters
+   weekend board: the timetable is the front page
    ========================================================================== */
-function renderCards() {
-  $("#workshop-grid").innerHTML = CATEGORIES.map(c => {
-    const list = WORKSHOPS.filter(w => w.cat === c.id);
-    if (!list.length) return "";
-    return `
-    <div class="cat">
-      <div class="cat__head"><h3>${c.name}</h3><span>${list.length} ${list.length > 1 ? "workshops" : "workshop"}</span></div>
-      ${list.map(w => `
-      <article class="wk reveal">
-        <figure class="wk__img"><img src="assets/img/${w.img}" width="960" height="720" loading="lazy" alt="${esc(w.alt)}" style="--pos:${w.pos}"></figure>
-        <div class="wk__body">
-          <h4>${w.name}</h4>
-          <p class="wk__blurb">${w.blurb}</p>
-        </div>
-        <div class="wk__aside">
-          <dl class="wk__facts">
-            <div><dt>Length</dt><dd>${w.mins} minutes</dd></div>
-            <div><dt>Ages</dt><dd>${w.age}</dd></div>
-            <div><dt>Runs on</dt><dd>${Object.keys(w.when).map(k => DAYNAME[k]).join(" and ")}</dd></div>
-          </dl>
-          <div class="wk__foot">
-            <div class="price">${inr(w.price)}<small>per person</small></div>
-            <a class="btn" href="#book" data-book="${w.id}">Book</a>
-          </div>
-        </div>
-      </article>`).join("")}
-    </div>`;
-  }).join("");
+const BOARD = { from: 11, to: 20, px: 1.25 };   // hours the board covers, and pixels per minute
+let weekendIdx = 0;
+let catFilter = "all";
+const toMin = hhmm => { const [h, m] = hhmm.split(":").map(Number); return h * 60 + m; };
+const startsAt = (d, hhmm) => { const [h, m] = hhmm.split(":").map(Number); return new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m); };
+const fmtHour = h => `${((h + 11) % 12) + 1} ${h >= 12 ? "PM" : "AM"}`;
+const monthOf = d => new Intl.DateTimeFormat("en-IN", { month: "short" }).format(d);
+
+/** Saturday and Sunday of the weekend `idx` weekends from now (on a Sunday, "this weekend" still starts yesterday). */
+function weekendDates(idx) {
+  const now = new Date();
+  const back = now.getDay() === 6 ? 0 : now.getDay() === 0 ? -1 : 6 - now.getDay();
+  const sat = new Date(now.getFullYear(), now.getMonth(), now.getDate() + back + idx * 7);
+  const sun = new Date(sat.getFullYear(), sat.getMonth(), sat.getDate() + 1);
+  return { sat, sun };
 }
 
-/* ==========================================================================
-   weekend plan
-   ========================================================================== */
-function renderDays() {
-  $("#days").innerHTML = ["sat", "sun"].map(k => {
-    const rows = WORKSHOPS.filter(w => w.when[k]).sort((a, b) => a.when[k].localeCompare(b.when[k]));
-    const next = nextDateFor(k);
-    return `
-      <section class="day reveal" aria-label="${DAYNAME[k]}">
-        <div class="day__head">
-          <h3>${DAYNAME[k]}</h3>
-          <span>Next: ${fmtDate(next)}</span>
-        </div>
-        <ul class="slots">
-          ${rows.map(w => `
-            <li class="slot">
-              <div class="slot__time">${fmtTime(w.when[k])}</div>
-              <div class="slot__what"><b>${w.name}</b><small>${w.mins} minutes, ${inr(w.price)} per person</small></div>
-              <a class="btn btn--sm btn--ghost" href="#book" data-book="${w.id}" data-day="${k}" aria-label="Book ${esc(w.name)} on ${DAYNAME[k]}">Book</a>
-            </li>`).join("")}
-        </ul>
-      </section>`;
-  }).join("");
+function renderRail() {
+  const { sat, sun } = weekendDates(weekendIdx);
+  const sameMonth = sat.getMonth() === sun.getMonth();
+  $("#rail-label").textContent = weekendIdx === 0 ? "This weekend" : weekendIdx === 1 ? "Next weekend" : `In ${weekendIdx} weekends`;
+  $("#rail-date").innerHTML = `<span>Sat ${sat.getDate()}${sameMonth ? "" : " " + monthOf(sat)}</span><span>Sun ${sun.getDate()} ${monthOf(sun)}</span>`;
+  $("#wk-prev").disabled = weekendIdx === 0;
+  $("#wk-next").disabled = weekendIdx >= LAB.weekendsAhead - 1;
+}
+
+function renderBoard() {
+  const dates = weekendDates(weekendIdx), now = new Date();
+  const height = (BOARD.to - BOARD.from) * 60 * BOARD.px;
+  let n = 0;
+  const column = k => {
+    const date = dates[k];
+    const items = WORKSHOPS.filter(w => w.when[k])
+      .map(w => ({ w, s: toMin(w.when[k]), e: toMin(w.when[k]) + w.mins }))
+      .sort((x, y) => x.s - y.s);
+    // sessions that overlap in time share the column side by side
+    const clusters = [];
+    let end = 0;
+    items.forEach(it => {
+      if (!clusters.length || it.s >= end) { clusters.push([]); end = 0; }
+      clusters[clusters.length - 1].push(it);
+      end = Math.max(end, it.e);
+    });
+    clusters.forEach(c => {
+      const laneEnds = [];
+      c.forEach(it => {
+        let lane = laneEnds.findIndex(e => e <= it.s);
+        if (lane < 0) lane = laneEnds.length;
+        laneEnds[lane] = it.e;
+        it.lane = lane;
+      });
+      c.forEach(it => { it.lanes = laneEnds.length; });
+    });
+    return items.map(it => {
+      const w = it.w, past = startsAt(date, w.when[k]) <= now;
+      return `<button type="button" class="tile cat-${w.cat}${it.lanes > 1 ? " tile--narrow" : ""}" data-book="${w.id}" data-day="${k}" data-iso="${toIso(date)}"${past ? " disabled" : ""}
+        style="--top:${(it.s - BOARD.from * 60) * BOARD.px}px;--h:${w.mins * BOARD.px}px;--l:${it.lane / it.lanes * 100}%;--w:${100 / it.lanes}%;--i:${n++}"
+        aria-label="${esc(w.name)}, ${DAYNAME[k]} ${date.getDate()} ${monthOf(date)}, ${fmtTime(w.when[k])}, ${inr(w.price)} per person${past ? ", already started" : ""}">
+        <span class="tile__time">${fmtTime(w.when[k])}</span>
+        <span class="tile__name">${w.name}</span>
+        <span class="tile__price">${inr(w.price)}</span>
+      </button>`;
+    }).join("");
+  };
+  const hours = Array.from({ length: BOARD.to - BOARD.from + 1 }, (_, i) => BOARD.from + i);
+  $("#board-grid").innerHTML = `
+    <div class="axis" aria-hidden="true" style="--h:${height}px">${hours.map(h => `<span style="top:${(h - BOARD.from) * 60 * BOARD.px}px">${fmtHour(h)}</span>`).join("")}</div>
+    ${["sat", "sun"].map(k => `
+    <section class="dayblock" aria-label="${DAYNAME[k]}">
+      <h2 class="day__head"><span class="day__name">${DAYNAME[k]}</span><span class="day__date">${dates[k].getDate()} ${monthOf(dates[k])}</span></h2>
+      <div class="col" style="--h:${height}px">${column(k)}</div>
+    </section>`).join("")}`;
+  syncFilter();
+}
+
+function syncFilter() {
+  $$("#legend .filter").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.cat === catFilter)));
+  $$("#board-grid .tile").forEach(t => t.classList.toggle("is-dim", catFilter !== "all" && !t.classList.contains("cat-" + catFilter)));
+}
+
+const PREVIEW_DEFAULT = { src: "assets/img/hero-960.jpg", cap: "Select a session to book your seats." };
+function setPreview(w) {
+  const img = $("#preview-img");
+  const src = w ? "assets/img/" + w.img : PREVIEW_DEFAULT.src;
+  if (!img.src.endsWith(src)) img.src = src;
+  img.style.objectPosition = w ? w.pos : "";
+  $("#preview-cap").textContent = w ? `${w.name}, ${w.mins} minutes` : PREVIEW_DEFAULT.cap;
+}
+
+function initBoard() {
+  $("#legend").innerHTML = [{ id: "all", name: "All" }, ...CATEGORIES].map(c =>
+    `<button type="button" class="filter${c.id === "all" ? "" : " cat-" + c.id}" data-cat="${c.id}" aria-pressed="${c.id === "all"}"><i aria-hidden="true"></i>${c.name}</button>`).join("");
+  $("#legend").addEventListener("click", e => {
+    const b = e.target.closest(".filter");
+    if (!b) return;
+    catFilter = b.dataset.cat === catFilter ? "all" : b.dataset.cat;
+    syncFilter();
+  });
+  const go = d => {
+    weekendIdx = Math.min(LAB.weekendsAhead - 1, Math.max(0, weekendIdx + d));
+    renderRail(); renderBoard();
+  };
+  $("#wk-prev").addEventListener("click", () => go(-1));
+  $("#wk-next").addEventListener("click", () => go(1));
+
+  const grid = $("#board-grid");
+  const show = e => { const t = e.target.closest(".tile"); if (t) setPreview(getW(t.dataset.book)); };
+  grid.addEventListener("mouseover", show);
+  grid.addEventListener("focusin", show);
+  grid.addEventListener("mouseleave", () => setPreview(null));
+  grid.addEventListener("focusout", () => setPreview(null));
+  setPreview(null);
+  renderRail();
+  renderBoard();
 }
 
 /* ==========================================================================
@@ -222,6 +283,8 @@ function updateTicket() {
   $("#t-art").src = "assets/img/" + s.w.img;
   $("#t-art").alt = s.w.alt;
   $("#t-art").style.objectPosition = s.w.pos;
+  $("#t-blurb").textContent = s.w.blurb;
+  $("#t-facts").textContent = `${s.w.mins} minutes. Ages ${s.w.age}.`;
   $("#t-when").textContent = s.date ? `${fmtDate(s.date)}, ${fmtTime(s.start)}` : "Pick a day";
   $("#f-time").textContent = s.date ? `${DAYNAME[s.key]}, ${fmtTime(s.start)} to ${fmtTime(s.end)}` : "";
   $("#t-seats").textContent = s.people;
@@ -358,13 +421,33 @@ function showPay(b) {
 
   form.hidden = true;
   payBox.hidden = false;
-  $("#book-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+  $(".sheet__body").classList.add("is-paying");
+  $("#sheet-scroll").scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function showForm() {
   payBox.hidden = true;
   form.hidden = false;
-  $("#book-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+  $(".sheet__body").classList.remove("is-paying");
+  $("#sheet-scroll").scrollTo({ top: 0, behavior: "smooth" });
+}
+
+const sheet = $("#sheet");
+function openBooking(id, key, iso) {
+  $("#f-workshop").value = id;
+  fillDates(key);
+  if (iso && $$("#f-date option").some(o => o.value === iso)) $("#f-date").value = iso;
+  updateTicket();
+  payBox.hidden = true; form.hidden = false;
+  $(".sheet__body").classList.remove("is-paying");
+  document.documentElement.classList.add("is-locked");
+  if (sheet.showModal) sheet.showModal(); else sheet.setAttribute("open", "");
+  $("#sheet-scroll").scrollTop = 0;
+}
+function initSheet() {
+  sheet.addEventListener("close", () => document.documentElement.classList.remove("is-locked"));
+  sheet.addEventListener("click", e => { if (e.target === sheet) sheet.close(); });
+  $("#sheet-close").addEventListener("click", () => sheet.close());
 }
 
 function initBooking() {
@@ -392,12 +475,7 @@ function initBooking() {
   // schedule and card buttons pre-fill the form
   document.addEventListener("click", e => {
     const btn = e.target.closest("[data-book]");
-    if (btn) {
-      $("#f-workshop").value = btn.dataset.book;
-      fillDates(btn.dataset.day);
-      updateTicket();
-      if (!payBox.hidden) { payBox.hidden = true; form.hidden = false; }
-    }
+    if (btn && !btn.disabled) openBooking(btn.dataset.book, btn.dataset.day, btn.dataset.iso);
     const copy = e.target.closest("[data-copy]");
     if (copy) copyText(copy.dataset.copy).then(ok => toast(ok ? "Copied!" : "Couldn’t copy. Select it and copy by hand."));
     if (e.target.closest("[data-copy-booking]") && lastBooking) {
@@ -417,7 +495,7 @@ function initContacts() {
     const cc = LAB.whatsapp.length > 10 ? LAB.whatsapp.slice(0, LAB.whatsapp.length - 10) : "91";
     const num = LAB.whatsapp.slice(-10);
     bits.push(`WhatsApp: <a href="https://wa.me/${LAB.whatsapp}" target="_blank" rel="noopener">+${cc} ${num.slice(0, 5)} ${num.slice(5)}</a>`);
-    actions.insertAdjacentHTML("afterbegin", `<a class="btn btn--whatsapp" href="https://wa.me/${LAB.whatsapp}" target="_blank" rel="noopener">Message us on WhatsApp</a>`);
+    if (actions) actions.insertAdjacentHTML("afterbegin", `<a class="btn btn--whatsapp" href="https://wa.me/${LAB.whatsapp}" target="_blank" rel="noopener">Message us on WhatsApp</a>`);
     const g = $("#group-cta");
     if (g) {
       g.href = `https://wa.me/${LAB.whatsapp}?text=${encodeURIComponent("Hi! I’d like to ask about a group booking at " + LAB.studioName + ".")}`;
@@ -426,33 +504,8 @@ function initContacts() {
   }
   if (LAB.instagram) bits.push(`Instagram: <a href="https://instagram.com/${LAB.instagram}" target="_blank" rel="noopener">@${LAB.instagram}</a>`);
   if (bits.length) {
-    $("#footer-contact").innerHTML = bits.join("<br>");
-    $("#footer-links").innerHTML = bits.join("<br>");
+    $$("#footer-contact, #footer-links").forEach(el => { el.innerHTML = bits.join("<br>"); });
   }
-}
-
-/* ==========================================================================
-   hero reserve bar: pre-fills the booking form and jumps to it
-   ========================================================================== */
-function initQuick() {
-  const qw = $("#q-workshop"), qd = $("#q-date"), qp = $("#q-people");
-  qw.innerHTML = WORKSHOPS.map(w => `<option value="${w.id}">${w.name}</option>`).join("");
-  qp.innerHTML = Array.from({ length: LAB.seatsPerBatch }, (_, i) => `<option value="${i + 1}"${i + 1 === 2 ? " selected" : ""}>${i + 1}</option>`).join("");
-  const fill = () => {
-    qd.innerHTML = upcoming(getW(qw.value)).map(o => `<option value="${toIso(o.date)}">${fmtDate(o.date)}, ${fmtTime(o.start)}</option>`).join("");
-  };
-  qw.addEventListener("change", fill);
-  fill();
-  $("#quick").addEventListener("submit", e => {
-    e.preventDefault();
-    $("#f-workshop").value = qw.value;
-    fillDates();
-    if (qd.value) $("#f-date").value = qd.value;
-    people = Number(qp.value);
-    updateTicket();
-    if (!payBox.hidden) { payBox.hidden = true; form.hidden = false; }
-    $("#book").scrollIntoView({ behavior: "smooth", block: "start" });
-  });
 }
 
 /* small facts that come from the config */
@@ -460,52 +513,9 @@ function initFacts() {
   $$("[data-seats]").forEach(el => { el.textContent = LAB.seatsPerBatch; });
 }
 
-/* ==========================================================================
-   nav
-   ========================================================================== */
-function initNav() {
-  const toggle = $("#nav-toggle"), links = $("#nav-links");
-  const set = open => { links.classList.toggle("is-open", open); toggle.setAttribute("aria-expanded", String(open)); };
-  toggle.addEventListener("click", () => set(!links.classList.contains("is-open")));
-  links.addEventListener("click", e => { if (e.target.closest("a")) set(false); });
-  document.addEventListener("keydown", e => { if (e.key === "Escape") set(false); });
-}
-
-/* ==========================================================================
-   motion: scroll reveals, a gentle hero parallax and the header rule.
-   Everything here is skipped for visitors who ask for reduced motion.
-   ========================================================================== */
-function initMotion() {
-  const header = $(".site-header");
-  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const hero = $("[data-parallax]");
-  let ticking = false;
-  const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      header.classList.toggle("is-scrolled", scrollY > 8);
-      if (hero && !still && scrollY < innerHeight * 1.2) hero.style.setProperty("--py", Math.min(scrollY * 0.07, 80) + "px");
-      ticking = false;
-    });
-  };
-  addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-
-  const items = $$(".reveal");
-  if (still || !("IntersectionObserver" in window)) { items.forEach(el => el.classList.add("is-in")); return; }
-  const io = new IntersectionObserver(entries => entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
-  }), { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
-  items.forEach(el => io.observe(el));
-}
-
 /* ---------- go ---------- */
-renderCards();
-renderDays();
 initBooking();
+initSheet();
+initBoard();
 initContacts();
-initQuick();
 initFacts();
-initNav();
-initMotion();
