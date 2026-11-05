@@ -187,7 +187,7 @@ const payBox = $("#pay");
 let people = 2;
 
 function fillWorkshops() {
-  $("#f-workshop").innerHTML = WORKSHOPS.map(w => `<option value="${w.id}">${w.name} (${inr(w.price)} each)</option>`).join("");
+  $("#f-workshop").innerHTML = WORKSHOPS.map(w => `<option value="${w.id}">${w.name}</option>`).join("");
 }
 function fillDates(preferKey) {
   const w = getW($("#f-workshop").value);
@@ -220,6 +220,8 @@ function updateTicket() {
   $("#t-seats").textContent = s.people;
   $("#t-each").textContent = inr(s.w.price);
   $("#t-total").textContent = inr(s.total);
+  $("#f-total").textContent = inr(s.total);
+  $("#f-price").textContent = `${inr(s.w.price)} per person, ${s.w.mins} minutes`;
   $("#f-people").textContent = s.people;
   $("#t-now").textContent = `You pay ${inr(s.total)} in full to confirm your ${s.people > 1 ? "seats" : "seat"}.`;
   $("#p-minus").disabled = people <= 1;
@@ -325,7 +327,8 @@ function showPay(b) {
           <a class="btn only-touch" href="${upi}">Open my UPI app</a>
           ${LAB.paymentLink ? `<a class="btn btn--ghost" href="${esc(LAB.paymentLink)}" target="_blank" rel="noopener">Pay by card or netbanking</a>` : ""}
           <div class="upi-id"><code>${esc(upiShown)}</code><button type="button" class="chip" data-copy="${esc(upiShown)}">Copy UPI ID</button></div>
-          <p class="hint">Scan with Google Pay, PhonePe, Paytm or any UPI app. The amount and your reference are filled in for you.</p>
+          <p class="hint only-desktop">Scan with Google Pay, PhonePe, Paytm or any UPI app. The amount and your reference are filled in for you.</p>
+          <p class="hint only-touch">Tap the button to open Google Pay, PhonePe, Paytm or any UPI app. The amount and your reference are filled in for you.</p>
         </div>
       </div>
     </section>
@@ -386,10 +389,12 @@ function initBooking() {
   document.addEventListener("click", e => {
     const btn = e.target.closest("[data-book]");
     if (btn) {
+      e.preventDefault();
       $("#f-workshop").value = btn.dataset.book;
       fillDates(btn.dataset.day);
       updateTicket();
       if (!payBox.hidden) { payBox.hidden = true; form.hidden = false; }
+      $("#book-panel").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
     }
     const copy = e.target.closest("[data-copy]");
     if (copy) copyText(copy.dataset.copy).then(ok => toast(ok ? "Copied!" : "Couldn’t copy. Select it and copy by hand."));
@@ -444,7 +449,7 @@ function initQuick() {
     people = Number(qp.value);
     updateTicket();
     if (!payBox.hidden) { payBox.hidden = true; form.hidden = false; }
-    $("#book").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("#book-panel").scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
 
@@ -493,6 +498,21 @@ function initMotion() {
   items.forEach(el => io.observe(el));
 }
 
+/* ==========================================================================
+   phone dock: a Book button that stays within thumb reach until the form is on screen
+   ========================================================================== */
+function initDock() {
+  const dock = $("#dock"), book = $("#book");
+  if (!dock || !book) return;
+  let inBook = false;
+  const sync = () => dock.classList.toggle("is-on", scrollY > 420 && !inBook);
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(es => { inBook = es[0].isIntersecting; sync(); }, { rootMargin: "0px 0px -20% 0px" }).observe(book);
+  }
+  addEventListener("scroll", sync, { passive: true });
+  sync();
+}
+
 /* ---------- go ---------- */
 renderCards();
 renderDays();
@@ -502,3 +522,4 @@ initQuick();
 initFacts();
 initNav();
 initMotion();
+initDock();

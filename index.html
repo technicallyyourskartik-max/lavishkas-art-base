@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lavishka’s Art Base | Art and craft workshops in Kavi Nagar, Ghaziabad</title>
 <meta name="description" content="Weekend painting, mosaic, candle making, block printing and other art and craft workshops at B-54, Sector 18, Kavi Nagar, Ghaziabad. Small batches, all materials included. Book your seat online.">
 <meta name="theme-color" content="#F1EADB">
@@ -162,6 +162,7 @@
             <div class="field field--full">
               <label for="f-workshop">Workshop</label>
               <select id="f-workshop" name="workshop"></select>
+            <p class="hint" id="f-price"></p>
             </div>
             <div class="field">
               <label for="f-date">Date</label>
@@ -192,7 +193,8 @@
               <textarea id="f-notes" name="notes" rows="2" placeholder="Children’s ages, a birthday, anything we should prepare"></textarea>
             </div>
           </div>
-          <button class="btn btn--wide" type="submit">Continue to payment</button>
+          <div class="form-total"><span>Total to pay</span><strong id="f-total">₹0</strong></div>
+        <button class="btn btn--wide" type="submit">Continue to payment</button>
           <p class="methods">You pay the full amount by UPI. Any app works, including Google Pay, PhonePe and Paytm.</p>
         </form>
 
@@ -269,6 +271,8 @@
     <p class="footer__fine">© 2026 Lavishka’s Art Base</p>
   </div>
 </footer>
+
+<div class="dock" id="dock"><a class="btn btn--wide" href="#book">Book a seat</a></div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
